@@ -4,7 +4,7 @@ Brand tokens and component styles for Demos Network dapps, pulled from the live
 sites (demos.network, scan.demos.network, faucet.demos.sh, kynesys.xyz) so new
 apps don't have to guess at the colors.
 
-Dark-first. Violet for identity, green for actions, cyan for data.
+Dark-first. Violet is the sole accent — identity and actions alike; data uses neutral text tokens.
 
 Live page: https://kynesyslabs.github.io/branding-guide/
 
@@ -37,7 +37,7 @@ Tailwind:
 module.exports = { presets: [require('./brand/tailwind.preset.js')] };
 ```
 
-Then `bg-bg-card`, `text-text-primary`, `border-border`, `bg-brand-green`,
+Then `bg-bg-card`, `text-text-primary`, `border-border`, `bg-brand-violet`,
 `font-mono`, `rounded-card`, and so on. For focus styles use `shadow-focus`
 (the ring is built to pass contrast on any surface).
 

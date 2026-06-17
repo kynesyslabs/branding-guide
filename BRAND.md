@@ -7,7 +7,7 @@ belong. Extracted from the live properties:
 |------|------|-------------------|
 | `demos.network` | Marketing | Hero glow, display type, color-accented copy, dark editorial layout |
 | `kynesys.xyz` | Parent brand | Austere, near-black, wide-tracked uppercase, bento grid |
-| `faucet.demos.sh` | **Dapp** | Centered card, green CTA, status pills, mono values, floating input |
+| `faucet.demos.sh` | **Dapp** | Centered card, violet CTA, status pills, mono values, floating input |
 | `scan.demos.network` | **Dapp** | Top nav, stat cards, two-column data panels, tx badges — *full token system* |
 
 The widest token surface lives in `scan.demos.network` (the raw scan dumped ~234
@@ -19,9 +19,8 @@ drop-in subset of ~110 design tokens — see `brand/tokens.css`.
 ## TL;DR — what Demos looks like
 
 - **Dark-first.** Near-black backgrounds (`#08080a`), never pure black for surfaces.
-- **Violet is identity** (`#7c3aed`) — glows, focus rings, links, brand moments.
-- **Emerald is action** (`#34d399`) — primary buttons, success, "live" status.
-- **Cyan is secondary** (`#06b6d4`) — data highlights, secondary emphasis.
+- **Violet is the sole accent** (`#7c3aed`) — identity, primary buttons, success/"live", glows, focus rings, links, brand moments.
+- **Data / secondary emphasis are neutral** — the text tokens (muted/secondary), no coloured accent.
 - **Hairline borders** = white at ~9% alpha. That's the dark-UI separator.
 - **Monospace for all data** — hashes, addresses, amounts, code (Fira Code / SF Mono).
 - **Inter for UI, Plus Jakarta for marketing display.**
@@ -44,7 +43,7 @@ brand/
   assets/
     demos-logo.svg          ← currentColor (themeable — inherits text color)
     demos-logo-white.svg    ← fixed #f4f4f5
-    demos-logo-gradient.svg ← violet→cyan gradient (hero moments)
+    demos-logo-gradient.svg ← violet gradient (hero moments)
     favicon.svg             ← currentColor mark for <link rel=icon>
     png/                    ← 16/32/64/128/256/512 (white + gradient), transparent
     demos-brand-assets.zip  ← all of the above, bundled for download
@@ -71,7 +70,7 @@ module.exports = { presets: [require('./brand/tailwind.preset.js')], content: [.
 @import './brand/tokens.css';
 @import './brand/fonts.css';
 ```
-Then use `bg-bg-card`, `text-text-primary`, `border-border`, `bg-brand-green`,
+Then use `bg-bg-card`, `text-text-primary`, `border-border`, `bg-brand-violet`,
 `font-mono`, `rounded-card`, etc. For focus, use **`shadow-focus`** (the two-layer
 ring that meets WCAG SC 1.4.11 on any surface) rather than `ring-brand`, which is
 single-layer and only sets the ring color.
@@ -88,7 +87,7 @@ into `brand/assets/`.
 |------|------|-----|
 | `demos-logo.svg` | `currentColor` | **Default.** Inherits surrounding text color — works on any bg, themes for free. |
 | `demos-logo-white.svg` | `#f4f4f5` | Fixed light, when you can't set `color`. |
-| `demos-logo-gradient.svg` | violet→cyan | Hero / splash moments only. |
+| `demos-logo-gradient.svg` | violet | Hero / splash moments only. |
 
 PNG raster sizes (transparent) in `assets/png/` — 16/32/64/128/256/512, white +
 gradient. Grab everything from `assets/demos-brand-assets.zip` (the preview's
@@ -96,8 +95,8 @@ gradient. Grab everything from `assets/demos-brand-assets.zip` (the preview's
 
 > The currentColor mark is **invisible on dark unless `color` is set** — that's
 > the point (themeable). On a dark surface set `color: var(--color-text-primary)`;
-> on light set a dark color; on green set `--color-text-inverse`. The preview's
-> logo card shows all four placements.
+> on light set a dark color; on a violet surface keep `--color-text-primary`. The
+> preview's logo card shows all four placements.
 
 ```html
 <!-- in nav, scales with font-size, picks up text color -->
@@ -105,8 +104,8 @@ gradient. Grab everything from `assets/demos-brand-assets.zip` (the preview's
 ```
 
 - `.dx-logo` sets `height: 1.5em` so it scales with the surrounding type.
-- On a green button/surface, set `color: var(--color-text-inverse)` so the
-  currentColor mark goes dark.
+- On a violet button/surface, keep `color: var(--color-text-primary)` so the
+  currentColor mark stays light.
 - Keep clear space ≥ the width of one comma around the mark. Don't recolor it
   outside the brand accents. Don't stretch — viewBox preserves aspect.
 
@@ -117,16 +116,14 @@ gradient. Grab everything from `assets/demos-brand-assets.zip` (the preview's
 ### Brand accents
 | Token | Hex | Use |
 |-------|-----|-----|
-| `--brand-violet` | `#7c3aed` | Brand identity, glows, focus rings, links |
-| `--brand-violet-strong` | `#a78bfa` | Violet text on dark (passes contrast) |
-| `--brand-green` | `#34d399` | **Primary CTA**, success, live status |
-| `--brand-green-strong` | `#10b981` | CTA hover |
-| `--brand-cyan` | `#06b6d4` | Secondary emphasis, data highlights |
-| `--brand-cyan-strong` | `#22d3ee` | Cyan text on dark |
+| `--brand-violet` | `#7c3aed` | Brand identity, **primary CTA**, glows, focus rings, links |
+| `--brand-violet-strong` | `#a78bfa` | Violet text on dark (passes contrast), CTA hover |
 
-Each accent has `-soft` (12% fill) and `-border` (30%). Focus rings don't use a raw
-accent — they use `--focus-ring` (a two-layer ring built on `--color-focus-ring`,
-violet-strong @ 80%), which clears WCAG SC 1.4.11 on any surface.
+Violet has `-soft` (12% fill) and `-border` (30%). It's the only hue in the palette —
+**data and secondary emphasis use the neutral text tokens** (`--color-text-secondary`
+/ `--color-text-muted`), not a coloured accent. Success / "live" render in violet via
+`--color-success`. Focus rings use `--focus-ring` (a two-layer ring built on
+`--color-focus-ring`, violet-strong @ 80%), which clears WCAG SC 1.4.11 on any surface.
 
 ### Backgrounds (layer dark → darker)
 `--color-bg-letterbox` `#06060a` → `--color-bg-primary` `#08080a` (app) →
@@ -138,19 +135,19 @@ violet-strong @ 80%), which clears WCAG SC 1.4.11 on any surface.
 ### Text
 `--color-text-primary` `#f4f4f5` (headings) · `--color-text-secondary` `#b4b4bb`
 (body) · `--color-text-muted` `#8a8a93` (labels) · `--color-text-faint` `#7c7c87`
-(placeholder/disabled, AA 4.5:1 on dark surfaces) · `--color-text-inverse` `#0a0a0a` (on green buttons).
+(placeholder/disabled, AA 4.5:1 on dark surfaces) · `--color-text-inverse` `#0a0a0a` (on light surfaces).
 
 ### Borders
 White at low alpha: `subtle` 5% → `default` 9% → `strong` 15% → `hover` 16%.
 This is *the* signature of the dark UI — use borders, not heavy shadows, to separate.
 
 ### Status
-`success` `#34d399` · `warning` `#fbbf24` · `error` `#f87171` · `info` `#818cf8`,
+`success` `#a78bfa` (violet) · `warning` `#fbbf24` · `error` `#f87171` · `info` `#818cf8`,
 each with a `-soft` background variant.
 
-> Contrast note: brand green/cyan/violet at full saturation are bright accents on
-> dark — fine for large UI elements and ≥18px bold text. For small body text use
-> `-strong` variants or the neutral text tokens to hold WCAG AA (4.5:1).
+> Contrast note: brand violet at full saturation is a bright accent on dark — fine
+> for large UI elements and ≥18px bold text. For small body text use the
+> `violet-strong` token or the neutral text tokens to hold WCAG AA (4.5:1).
 
 ---
 
@@ -218,7 +215,7 @@ they look flat. Opaque `--color-bg-card` fallback kicks in via `@supports` where
 `var(--color-bg-card)` and drop the blur.
 
 ### Button (`.dx-btn`)
-- **Primary** (`--primary`): solid `brand-green`, `text-inverse` (dark), radius 10.
+- **Primary** (`--primary`): solid `brand-violet`, light text, radius 10.
   This is the faucet "Request Tokens" CTA. Bold, high-contrast, the one strong color.
 - **Secondary** (`--secondary`): violet-tinted fill + violet border + violet text.
 - **Ghost** (`--ghost`): transparent + hairline border.
@@ -234,8 +231,8 @@ always `tabular-nums` so they don't jitter on update.
 
 ### Data row + mono (`.dx-row`, `.dx-mono`)
 Block/tx lists and the faucet info panel. Label (muted) left, value right.
-Addresses/hashes/amounts in `--font-mono`; green (`--accent`) for addresses &
-success values, cyan for secondary data. Row separated by `border-subtle`.
+Addresses/hashes/amounts in `--font-mono`; violet (`--accent`) for addresses &
+success values, neutral (`--data`) for secondary data. Row separated by `border-subtle`.
 
 ### Input (`.dx-input`)
 `bg-secondary` + hairline border + radius-xl, 16px text, faint placeholder.
@@ -246,7 +243,7 @@ Focus → violet border + violet ring. Faucet uses a floating label above it.
 links (muted, hover→primary, `aria-current` for active), search + status pill right.
 
 ### Tx-type badge (`.dx-badge`)
-Small green-soft chip for transaction types ("Transfer") in lists.
+Small violet-soft chip for transaction types ("Transfer") in lists.
 
 ---
 
@@ -279,8 +276,8 @@ Small green-soft chip for transaction types ("Transfer") in lists.
 
 **Do**
 - Use semantic tokens (`--color-bg-card`), not raw hex, so theming works.
-- Reserve solid green for the single primary action per view.
-- Keep violet for identity/focus; cyan for data; green for action/success.
+- Reserve solid violet for the single primary action per view.
+- Keep violet for identity/focus/action/success; data stays neutral.
 - Mono + tabular-nums for every on-chain value.
 
 **Don't**

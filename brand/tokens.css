@@ -11,25 +11,15 @@
   color-scheme: dark;
 
   /* ── Brand palette ─────────────────────────────────────────────── */
-  /* Primary accent: violet (brand identity, glows, focus, links)      */
+  /* Sole accent: violet — identity, actions/CTAs, glows, focus, links */
   --brand-violet:          #7c3aed;
   --brand-violet-strong:   #a78bfa; /* lighter, for text-on-dark        */
   --brand-violet-soft:     #7c3aed1f; /* 12% — subtle fills             */
   --brand-violet-border:   #7c3aed4d; /* 30% — borders                  */
   /* Note: focus rings use --color-focus-ring (#a78bfacc), not raw violet —
      a 32%-alpha violet on near-black gives ~1.3:1 and fails WCAG SC 1.4.11. */
-
-  /* Action accent: emerald (primary CTAs, success, "live")            */
-  --brand-green:           #34d399;
-  --brand-green-strong:    #10b981;
-  --brand-green-soft:      #10b9811f;
-  --brand-green-border:    #10b9814d;
-
-  /* Secondary accent: cyan (data highlights, secondary emphasis)      */
-  --brand-cyan:            #06b6d4;
-  --brand-cyan-strong:     #22d3ee;
-  --brand-cyan-soft:       #06b6d41f;
-  --brand-cyan-border:     #06b6d44d;
+  /* Data / secondary emphasis use the neutral text tokens (muted/secondary),
+     not a coloured accent — violet is the only hue in the palette. */
 
   /* ── Backgrounds (near-black, layered) ─────────────────────────── */
   --color-bg-letterbox:    #06060a; /* deepest, page chrome / letterbox */
@@ -53,7 +43,7 @@
   --color-text-secondary:  #b4b4bb; /* body                             */
   --color-text-muted:      #8a8a93; /* labels, captions                 */
   --color-text-faint:      #7c7c87; /* placeholders, disabled — AA 4.5:1 on bg-secondary/card/primary */
-  --color-text-inverse:    #0a0a0a; /* text on green/light buttons      */
+  --color-text-inverse:    #0a0a0a; /* text on light surfaces            */
 
   /* ── Borders (white at low alpha — the dark-UI hairline) ────────── */
   --color-border-subtle:   #ffffff0e; /* 5%                             */
@@ -62,9 +52,10 @@
   --color-border-hover:    #ffffff29; /* 16%                            */
 
   /* ── Semantic status ───────────────────────────────────────────── */
-  --color-success:         #34d399;
-  --color-success-soft:    #10b9811f;
-  --color-success-muted:   #34d39921;
+  /* Success / "live" render in violet — the sole accent. */
+  --color-success:         #a78bfa;
+  --color-success-soft:    #7c3aed1f;
+  --color-success-muted:   #a78bfa21;
   --color-warning:         #fbbf24;
   --color-warning-soft:    #f59e0b1f;
   --color-warning-muted:   #fbbf2421;

@@ -14,17 +14,17 @@
     content:""; position: fixed; inset: 0; z-index: 0; pointer-events: none;
     background:
       radial-gradient(40% 30% at 25% 20%, #7c3aed40 0%, #7c3aed00 60%),
-      radial-gradient(35% 30% at 80% 35%, #06b6d433 0%, #06b6d400 60%),
-      radial-gradient(40% 35% at 60% 80%, #34d39926 0%, #34d39900 60%);
+      radial-gradient(35% 30% at 80% 35%, #a78bfa26 0%, #a78bfa00 60%),
+      radial-gradient(40% 35% at 60% 80%, #7c3aed1f 0%, #7c3aed00 60%);
   }
   .wrap { max-width: 1100px; margin: 0 auto; padding: var(--space-8) var(--space-6) var(--space-24); position: relative; z-index: 1; }
   .logo-cell { display:flex; align-items:center; justify-content:center;
     width:120px; height:96px; border-radius:var(--radius-md); border:1px solid var(--color-border); }
   .logo-cell--light { background:#f4f4f5; }
-  .logo-cell--green { background:var(--brand-green); }
+  .logo-cell--violet { background:var(--brand-violet); }
   h1 { font-family: var(--font-display); color: var(--color-text-primary);
        font-size: var(--text-hero); letter-spacing: var(--tracking-tight); line-height: 1.05; margin: 0 0 var(--space-2); }
-  h1 .v { color: var(--brand-violet-strong); } h1 .g { color: var(--brand-green); } h1 .c { color: var(--brand-cyan-strong); }
+  h1 .v { color: var(--brand-violet-strong); } h1 .g { color: var(--brand-violet); } h1 .c { color: var(--brand-violet-strong); }
   h2 { color: var(--color-text-primary); font-size: var(--text-2xl); margin: var(--space-12) 0 var(--space-4); }
   .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: var(--space-4); }
   .swatch { height: 64px; border-radius: var(--radius-md); border: 1px solid var(--color-border); display:flex; align-items:flex-end; padding: var(--space-2); font-size: var(--text-caption); font-family: var(--font-mono); color: var(--color-text-primary); }
@@ -57,8 +57,8 @@
     <div class="logo-cell" title="gradient">
       <img src="./assets/demos-logo-gradient.svg" alt="" style="height:56px">
     </div>
-    <div class="logo-cell logo-cell--green" title="on green">
-      <img src="./assets/demos-logo.svg" alt="" style="color:var(--color-text-inverse);height:56px">
+    <div class="logo-cell logo-cell--violet" title="on violet">
+      <img src="./assets/demos-logo.svg" alt="" style="color:var(--color-text-primary);height:56px">
     </div>
   </div>
 
@@ -83,8 +83,8 @@
   <h2>Brand accents</h2>
   <div class="grid">
     <div class="swatch" style="background:var(--brand-violet)">violet #7c3aed</div>
-    <div class="swatch" style="background:var(--brand-green);color:var(--color-text-inverse)">green #34d399</div>
-    <div class="swatch" style="background:var(--brand-cyan);color:var(--color-text-inverse)">cyan #06b6d4</div>
+    <div class="swatch" style="background:var(--brand-violet-strong);color:var(--color-text-inverse)">violet-strong #a78bfa</div>
+    <div class="swatch" style="background:var(--brand-violet-soft)">violet-soft 12%</div>
     <div class="swatch" style="background:var(--color-bg-card)">bg-card #111113</div>
   </div>
 
@@ -97,7 +97,7 @@
 
   <h2>Data panel</h2>
   <div class="dx-card">
-    <div class="dx-row"><span class="dx-row__label">Faucet Address</span><span class="dx-mono dx-mono--cyan">0xdef…8fc2d</span></div>
+    <div class="dx-row"><span class="dx-row__label">Faucet Address</span><span class="dx-mono dx-mono--data">0xdef…8fc2d</span></div>
     <div class="dx-row"><span class="dx-row__label">Available Balance</span><span class="dx-mono">999,999,995,982,000 DEMOS</span></div>
     <div class="dx-row" style="border-bottom:none"><span class="dx-row__label">Status</span><span class="dx-mono dx-mono--accent">Connected</span></div>
   </div>

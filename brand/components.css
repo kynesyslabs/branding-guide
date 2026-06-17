@@ -78,12 +78,12 @@
 .dx-btn:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 .dx-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-/* Primary = solid emerald, dark text (the faucet "Request Tokens" CTA) */
+/* Primary = solid violet, light text (the faucet "Request Tokens" CTA) */
 .dx-btn--primary {
-  background: var(--brand-green);
-  color: var(--color-text-inverse);
+  background: var(--brand-violet);
+  color: var(--color-text-primary);
 }
-.dx-btn--primary:hover:not(:disabled) { background: var(--brand-green-strong); }
+.dx-btn--primary:hover:not(:disabled) { background: var(--brand-violet-strong); color: var(--color-text-inverse); }
 
 /* Secondary = violet-tinted, light text */
 .dx-btn--secondary {
@@ -111,8 +111,8 @@
   font-size: var(--text-caption);
   font-weight: var(--font-weight-medium);
   background: var(--color-success-soft);
-  border: 1px solid var(--brand-green-border);
-  color: var(--brand-green);
+  border: 1px solid var(--brand-violet-border);
+  color: var(--color-success);
 }
 .dx-pill::before {
   content: "";
@@ -158,8 +158,8 @@
   font-size: var(--text-label);
   color: var(--color-text-primary);
 }
-.dx-mono--accent { color: var(--brand-green); }     /* addresses / success values */
-.dx-mono--cyan   { color: var(--brand-cyan-strong); }
+.dx-mono--accent { color: var(--brand-violet-strong); } /* addresses / success values */
+.dx-mono--data   { color: var(--color-text-secondary); } /* secondary data (neutral) */
 
 /* ── Input (faucet wallet-address field) ──────────────────────── */
 .dx-input {
@@ -220,5 +220,5 @@
   font-size: var(--text-caption);
   font-weight: var(--font-weight-medium);
   background: var(--color-success-soft);
-  color: var(--brand-green);
+  color: var(--color-success);
 }

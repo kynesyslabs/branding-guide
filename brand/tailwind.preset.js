@@ -15,10 +15,6 @@ module.exports = {
         brand: {
           violet: 'var(--brand-violet)',
           'violet-strong': 'var(--brand-violet-strong)',
-          green: 'var(--brand-green)',
-          'green-strong': 'var(--brand-green-strong)',
-          cyan: 'var(--brand-cyan)',
-          'cyan-strong': 'var(--brand-cyan-strong)',
         },
         bg: {
           letterbox: 'var(--color-bg-letterbox)',
