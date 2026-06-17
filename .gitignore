@@ -1,0 +1,11 @@
+# local tooling / memory — not for the repo
+.bank
+.mycelium/
+codedb.snapshot
+AGENTS.md
+
+# extraction artifacts (raw computed-style dumps, screenshots, preview renders)
+ui-extracted/
+
+# os / editor
+.DS_Store

@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Demos Brand — Preview</title>
+<link rel="stylesheet" href="./tokens.css">
+<link rel="stylesheet" href="./fonts.css">
+<link rel="stylesheet" href="./components.css">
+<style>
+  body { margin: 0; }
+  /* fixed glow + blobs so frosted cards have something to refract */
+  body::before {
+    content:""; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background:
+      radial-gradient(40% 30% at 25% 20%, #7c3aed40 0%, #7c3aed00 60%),
+      radial-gradient(35% 30% at 80% 35%, #06b6d433 0%, #06b6d400 60%),
+      radial-gradient(40% 35% at 60% 80%, #34d39926 0%, #34d39900 60%);
+  }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: var(--space-8) var(--space-6) var(--space-24); position: relative; z-index: 1; }
+  .logo-cell { display:flex; align-items:center; justify-content:center;
+    width:120px; height:96px; border-radius:var(--radius-md); border:1px solid var(--color-border); }
+  .logo-cell--light { background:#f4f4f5; }
+  .logo-cell--green { background:var(--brand-green); }
+  h1 { font-family: var(--font-display); color: var(--color-text-primary);
+       font-size: var(--text-hero); letter-spacing: var(--tracking-tight); line-height: 1.05; margin: 0 0 var(--space-2); }
+  h1 .v { color: var(--brand-violet-strong); } h1 .g { color: var(--brand-green); } h1 .c { color: var(--brand-cyan-strong); }
+  h2 { color: var(--color-text-primary); font-size: var(--text-2xl); margin: var(--space-12) 0 var(--space-4); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: var(--space-4); }
+  .swatch { height: 64px; border-radius: var(--radius-md); border: 1px solid var(--color-border); display:flex; align-items:flex-end; padding: var(--space-2); font-size: var(--text-caption); font-family: var(--font-mono); color: var(--color-text-primary); }
+  .lead { color: var(--color-text-muted); font-size: var(--text-fluid-body); }
+</style>
+</head>
+<body class="dx-app">
+<nav class="dx-nav">
+  <span class="dx-nav__brand"><img class="dx-logo" src="./assets/demos-logo.svg" alt=""> Demos</span>
+  <a class="dx-nav__link" href="#" aria-current="page">Overview</a>
+  <a class="dx-nav__link" href="#">Blocks</a>
+  <a class="dx-nav__link" href="#">Transactions</a>
+  <span style="margin-left:auto"></span>
+  <span class="dx-pill">Live</span>
+</nav>
+
+<div class="wrap dx-glow">
+  <h1>One stack. <span class="v">Five</span> <span class="g">primitives.</span></h1>
+  <p class="lead">Brand preview — tokens, type, and the dapp component primitives.</p>
+
+  <h2>Logo</h2>
+  <div class="dx-card" style="display:flex;gap:var(--space-8);align-items:center;flex-wrap:wrap">
+    <!-- light surface so the currentColor / white mark is clearly visible -->
+    <div class="logo-cell logo-cell--light" title="on light surface">
+      <img src="./assets/demos-logo.svg" alt="Demos logo" style="color:#111113;height:56px">
+    </div>
+    <div class="logo-cell" title="currentColor on card">
+      <img src="./assets/demos-logo.svg" alt="" style="color:var(--color-text-primary);height:56px">
+    </div>
+    <div class="logo-cell" title="gradient">
+      <img src="./assets/demos-logo-gradient.svg" alt="" style="height:56px">
+    </div>
+    <div class="logo-cell logo-cell--green" title="on green">
+      <img src="./assets/demos-logo.svg" alt="" style="color:var(--color-text-inverse);height:56px">
+    </div>
+  </div>
+
+  <h2>Sizes</h2>
+  <div class="dx-card" style="display:flex;gap:var(--space-6);align-items:flex-end;flex-wrap:wrap">
+    <img src="./assets/png/demos-logo-white-16.png" alt="16" title="16">
+    <img src="./assets/png/demos-logo-white-32.png" alt="32" title="32">
+    <img src="./assets/png/demos-logo-white-64.png" alt="64" title="64">
+    <img src="./assets/png/demos-logo-white-128.png" alt="128" title="128">
+    <img src="./assets/png/demos-logo-gradient-256.png" alt="256" title="256" style="max-height:128px;width:auto">
+  </div>
+
+  <h2>Download assets</h2>
+  <div style="display:flex;gap:var(--space-3);flex-wrap:wrap">
+    <a class="dx-btn dx-btn--primary" href="./assets/demos-brand-assets.zip" download>⬇ All assets (.zip)</a>
+    <a class="dx-btn dx-btn--ghost" href="./assets/demos-logo.svg" download>SVG (currentColor)</a>
+    <a class="dx-btn dx-btn--ghost" href="./assets/demos-logo-gradient.svg" download>SVG (gradient)</a>
+    <a class="dx-btn dx-btn--ghost" href="./assets/png/demos-logo-white-512.png" download>PNG 512</a>
+    <a class="dx-btn dx-btn--ghost" href="./assets/favicon.svg" download>favicon.svg</a>
+  </div>
+
+  <h2>Brand accents</h2>
+  <div class="grid">
+    <div class="swatch" style="background:var(--brand-violet)">violet #7c3aed</div>
+    <div class="swatch" style="background:var(--brand-green);color:var(--color-text-inverse)">green #34d399</div>
+    <div class="swatch" style="background:var(--brand-cyan);color:var(--color-text-inverse)">cyan #06b6d4</div>
+    <div class="swatch" style="background:var(--color-bg-card)">bg-card #111113</div>
+  </div>
+
+  <h2>Stat cards</h2>
+  <div class="grid">
+    <div class="dx-card dx-stat"><span class="dx-stat__label">Total Blocks</span><span class="dx-stat__value">6,813</span></div>
+    <div class="dx-card dx-stat"><span class="dx-stat__label">Transactions</span><span class="dx-stat__value">1,042,156</span></div>
+    <div class="dx-card dx-stat"><span class="dx-stat__label">Addresses</span><span class="dx-stat__value">6</span></div>
+  </div>
+
+  <h2>Data panel</h2>
+  <div class="dx-card">
+    <div class="dx-row"><span class="dx-row__label">Faucet Address</span><span class="dx-mono dx-mono--cyan">0xdef…8fc2d</span></div>
+    <div class="dx-row"><span class="dx-row__label">Available Balance</span><span class="dx-mono">999,999,995,982,000 DEMOS</span></div>
+    <div class="dx-row" style="border-bottom:none"><span class="dx-row__label">Status</span><span class="dx-mono dx-mono--accent">Connected</span></div>
+  </div>
+
+  <h2>Form</h2>
+  <div class="dx-card">
+    <label class="dx-row__label" for="addr">Wallet Address</label>
+    <input id="addr" class="dx-input" placeholder="Enter your wallet address (0x…)" style="margin:var(--space-2) 0 var(--space-4)">
+    <button class="dx-btn dx-btn--primary" style="width:100%">Request Tokens</button>
+  </div>
+
+  <h2>Buttons & pills</h2>
+  <div style="display:flex;gap:var(--space-3);flex-wrap:wrap;align-items:center">
+    <button class="dx-btn dx-btn--primary">Primary</button>
+    <button class="dx-btn dx-btn--secondary">Secondary</button>
+    <button class="dx-btn dx-btn--ghost">Ghost</button>
+    <span class="dx-pill">Live</span>
+    <span class="dx-pill dx-pill--warning">Testnet</span>
+    <span class="dx-pill dx-pill--error">Down</span>
+    <span class="dx-badge">Transfer</span>
+  </div>
+</div>
+</body>
+</html>

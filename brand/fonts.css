@@ -1,0 +1,37 @@
+/*
+ * Demos Network — Font stacks
+ *
+ * Fonts used across Demos properties (all open-source, Google Fonts):
+ *   Inter             — UI / app text (dapps: faucet, explorer). The default.
+ *   Plus Jakarta Sans — display / marketing headings (demos.network).
+ *   Fira Code         — monospace (hashes, addresses, amounts, code).
+ *
+ * Pick ONE load method:
+ *
+ * A) Link tag (simplest — paste into <head>):
+ *    <link rel="preconnect" href="https://fonts.googleapis.com">
+ *    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ *    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+ *
+ * B) @import (this file). Less optimal for performance than the link tags above.
+ *
+ * C) next/font or @fontsource — recommended for production (self-hosted, no FOUT).
+ *    e.g. `import { Inter } from 'next/font/google'`.
+ *
+ * The font stacks below already fall back to system fonts if web fonts fail,
+ * so the UI stays on-brand-ish even offline.
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700&family=Fira+Code:wght@400;500&display=swap');
+
+/* Apply the base stacks. tokens.css defines the --font-* variables. */
+html {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+code, pre, kbd, samp, .font-mono {
+  font-family: var(--font-mono);
+  font-variant-ligatures: none; /* keep hashes/addresses unambiguous */
+}

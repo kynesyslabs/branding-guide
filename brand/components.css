@@ -1,0 +1,224 @@
+/*
+ * Demos Network — Component primitives (vanilla CSS, framework-agnostic)
+ * Built on tokens.css. These are the recurring dapp patterns observed across
+ * faucet.demos.sh and scan.demos.network. Copy what you need; rename freely.
+ *
+ * Class prefix `dx-` = Demos eXperience.
+ */
+
+/* ── App shell ─────────────────────────────────────────────────── */
+.dx-app {
+  min-height: 100vh;
+  background: var(--color-bg-primary);
+  color: var(--color-text-secondary);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+}
+
+/* Signature ambient violet glow behind hero/page content */
+.dx-glow {
+  position: relative;
+}
+.dx-glow::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--glow-ambient);
+  pointer-events: none;
+  z-index: 0;
+}
+.dx-glow > * { position: relative; z-index: 1; }
+
+/* ── Card / panel (frosted glass) ──────────────────────────────── */
+.dx-card {
+  background: var(--glass-card);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-card);
+  padding: var(--space-card-padding);
+  box-shadow: var(--shadow-md);
+  -webkit-backdrop-filter: blur(var(--blur-md));
+  backdrop-filter: blur(var(--blur-md));
+}
+.dx-card--hover:hover {
+  background: var(--glass-card-hover);
+  border-color: var(--color-border-hover);
+}
+/* Opaque fallback for browsers without backdrop-filter (older Firefox). */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .dx-card { background: var(--color-bg-card); }
+  .dx-card--hover:hover { background: var(--color-bg-card-hover); }
+}
+
+/* ── Logo ──────────────────────────────────────────────────────── */
+.dx-logo {
+  display: inline-block;
+  height: 1.5em;        /* scales with surrounding font-size */
+  width: auto;
+  color: var(--color-text-primary); /* currentColor svg inherits this */
+  vertical-align: middle;
+}
+
+/* ── Buttons ───────────────────────────────────────────────────── */
+.dx-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: 44px;            /* a11y touch target */
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius-button);
+  font-family: var(--font-sans);
+  font-size: var(--text-label);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: var(--transition);
+}
+.dx-btn:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.dx-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* Primary = solid emerald, dark text (the faucet "Request Tokens" CTA) */
+.dx-btn--primary {
+  background: var(--brand-green);
+  color: var(--color-text-inverse);
+}
+.dx-btn--primary:hover:not(:disabled) { background: var(--brand-green-strong); }
+
+/* Secondary = violet-tinted, light text */
+.dx-btn--secondary {
+  background: var(--brand-violet-soft);
+  border-color: var(--brand-violet-border);
+  color: var(--brand-violet-strong);
+}
+.dx-btn--secondary:hover:not(:disabled) { background: var(--color-bg-hover); }
+
+/* Ghost = transparent, hairline border */
+.dx-btn--ghost {
+  background: transparent;
+  border-color: var(--color-border);
+  color: var(--color-text-primary);
+}
+.dx-btn--ghost:hover:not(:disabled) { background: var(--color-bg-hover); }
+
+/* ── Status pill (the "Live" / "Testnet" / "Connected" badge) ──── */
+.dx-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-pill);
+  font-size: var(--text-caption);
+  font-weight: var(--font-weight-medium);
+  background: var(--color-success-soft);
+  border: 1px solid var(--brand-green-border);
+  color: var(--brand-green);
+}
+.dx-pill::before {
+  content: "";
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 6px currentColor;  /* subtle live-dot glow */
+}
+.dx-pill--warning { background: var(--color-warning-soft); border-color: #f59e0b4d; color: var(--color-warning); }
+.dx-pill--error   { background: var(--color-error-soft);   border-color: #ef44444d; color: var(--color-error); }
+.dx-pill--neutral { background: #ffffff0f; border-color: var(--color-border); color: var(--color-text-secondary); }
+
+/* ── Stat card (explorer: label + big number + icon) ──────────── */
+.dx-stat {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.dx-stat__label {
+  font-size: var(--text-label);
+  color: var(--color-text-muted);
+}
+.dx-stat__value {
+  font-size: var(--text-3xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Data row (explorer block/tx lists, faucet info rows) ──────── */
+.dx-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+.dx-row__label { color: var(--color-text-muted); font-size: var(--text-label); }
+/* Hashes, addresses, amounts always monospace */
+.dx-mono {
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  color: var(--color-text-primary);
+}
+.dx-mono--accent { color: var(--brand-green); }     /* addresses / success values */
+.dx-mono--cyan   { color: var(--brand-cyan-strong); }
+
+/* ── Input (faucet wallet-address field) ──────────────────────── */
+.dx-input {
+  width: 100%;
+  min-height: 44px;
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);     /* 16px — no iOS zoom */
+  transition: var(--transition);
+}
+.dx-input::placeholder { color: var(--color-text-faint); }
+.dx-input:focus {
+  outline: none;
+  border-color: var(--brand-violet-border);
+  box-shadow: var(--focus-ring);
+}
+
+/* ── Top nav bar (explorer) ────────────────────────────────────── */
+.dx-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  padding: var(--space-4) var(--space-6);
+  background: var(--glass-panel);
+  border-bottom: 1px solid var(--color-border);
+  -webkit-backdrop-filter: blur(var(--blur-md));
+  backdrop-filter: blur(var(--blur-md));
+}
+.dx-nav__brand {
+  display: flex; align-items: center; gap: var(--space-2);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+}
+.dx-nav__link {
+  color: var(--color-text-muted);
+  font-size: var(--text-label);
+  text-decoration: none;
+  transition: var(--transition);
+}
+.dx-nav__link:hover, .dx-nav__link[aria-current="page"] { color: var(--color-text-primary); }
+.dx-nav__link:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+  color: var(--color-text-primary);
+}
+
+/* ── Type-badge (tx type chip in lists, e.g. "Transfer") ──────── */
+.dx-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-caption);
+  font-weight: var(--font-weight-medium);
+  background: var(--color-success-soft);
+  color: var(--brand-green);
+}

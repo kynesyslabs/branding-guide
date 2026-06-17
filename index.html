@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Demos Network — Design System</title>
+<meta name="description" content="The Demos Network brand & design system: tokens, typography, logo, and dapp component primitives.">
+<link rel="icon" href="./brand/assets/favicon.svg">
+<link rel="stylesheet" href="./brand/tokens.css">
+<link rel="stylesheet" href="./brand/fonts.css">
+<link rel="stylesheet" href="./brand/components.css">
+<style>
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; scroll-padding-top:72px; }
+  body{ margin:0; }
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    *{ animation:none !important; transition:none !important; }
+  }
+
+  /* ambient brand glow fixed behind everything (so glass refracts) */
+  body::before{
+    content:""; position:fixed; inset:0; z-index:0; pointer-events:none;
+    background:
+      radial-gradient(38% 28% at 22% 12%, #7c3aed33 0%, #7c3aed00 60%),
+      radial-gradient(32% 26% at 82% 22%, #06b6d426 0%, #06b6d400 60%),
+      radial-gradient(36% 30% at 60% 88%, #34d39920 0%, #34d39900 60%);
+  }
+
+  /* layout */
+  .container{ max-width:1120px; margin:0 auto; padding:0 var(--space-6); position:relative; z-index:1; }
+  section{ padding:var(--space-20) 0; border-top:1px solid var(--color-border-subtle); position:relative; z-index:1; }
+  section:first-of-type{ border-top:none; }
+  .eyebrow{ text-transform:uppercase; letter-spacing:var(--tracking-wide); font-size:var(--text-caption);
+    color:var(--brand-violet-strong); font-weight:var(--font-weight-semibold); margin:0 0 var(--space-3); }
+  h2.sec{ font-family:var(--font-display); font-size:var(--text-3xl); color:var(--color-text-primary);
+    margin:0 0 var(--space-2); letter-spacing:-0.01em; }
+  .sec-lead{ color:var(--color-text-muted); max-width:60ch; margin:0 0 var(--space-8); font-size:var(--text-lg); }
+  h3.sub{ color:var(--color-text-primary); font-size:var(--text-xl); margin:var(--space-10) 0 var(--space-4); }
+
+  /* sticky site nav */
+  .site-nav{ position:sticky; top:0; z-index:50; }
+  .site-nav .dx-nav{ max-width:1120px; margin:0 auto; }
+  .site-nav__links{ display:flex; gap:var(--space-5); margin-left:auto; }
+  @media (max-width:760px){ .site-nav__links{ display:none; } }
+
+  /* hero */
+  .hero{ text-align:center; padding:var(--space-24) 0 var(--space-20); }
+  .hero__mark{ height:80px; margin-bottom:var(--space-6); color:var(--color-text-primary); }
+  .hero h1{ font-family:var(--font-display); font-size:var(--text-fluid-h2); line-height:1.05;
+    letter-spacing:-0.02em; color:var(--color-text-primary); margin:0 auto var(--space-4); max-width:18ch; }
+  .hero h1 .v{ color:var(--brand-violet-strong); } .hero h1 .g{ color:var(--brand-green); } .hero h1 .c{ color:var(--brand-cyan-strong); }
+  .hero p{ color:var(--color-text-secondary); font-size:var(--text-fluid-body); max-width:54ch; margin:0 auto var(--space-8); }
+  .hero__cta{ display:flex; gap:var(--space-3); justify-content:center; flex-wrap:wrap; }
+
+  /* grids */
+  .grid{ display:grid; gap:var(--space-4); }
+  .grid-2{ grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); }
+  .grid-3{ grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); }
+  .grid-4{ grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); }
+
+  /* color swatch (click to copy) */
+  .swatch{ cursor:pointer; border:1px solid var(--color-border); border-radius:var(--radius-md); overflow:hidden;
+    background:var(--color-bg-card); transition:var(--transition); }
+  .swatch:hover{ border-color:var(--color-border-hover); transform:translateY(-2px); }
+  .swatch:focus-visible{ outline:none; box-shadow:var(--focus-ring); }
+  .swatch__chip{ height:72px; }
+  .swatch__meta{ padding:var(--space-3); }
+  .swatch__name{ color:var(--color-text-primary); font-size:var(--text-label); font-weight:var(--font-weight-medium); }
+  .swatch__val{ color:var(--color-text-muted); font-family:var(--font-mono); font-size:var(--text-caption); margin-top:2px; }
+  .swatch__var{ color:var(--color-text-faint); font-family:var(--font-mono); font-size:var(--text-caption); }
+
+  /* type specimen */
+  .specimen{ padding:var(--space-4) 0; border-bottom:1px solid var(--color-border-subtle); display:flex;
+    align-items:baseline; gap:var(--space-4); flex-wrap:wrap; }
+  .specimen__tag{ color:var(--color-text-faint); font-family:var(--font-mono); font-size:var(--text-caption); width:120px; flex:none; }
+  .specimen__text{ color:var(--color-text-primary); }
+
+  /* token scale rows */
+  .scale-row{ display:flex; align-items:center; gap:var(--space-4); padding:var(--space-2) 0; }
+  .scale-row__name{ width:120px; flex:none; color:var(--color-text-muted); font-family:var(--font-mono); font-size:var(--text-caption); }
+  .scale-bar{ background:var(--brand-violet); height:16px; border-radius:var(--radius-sm); }
+  .radius-demo{ width:72px; height:72px; background:var(--brand-violet-soft); border:1px solid var(--brand-violet-border); }
+  .elev-demo{ width:100%; height:72px; background:var(--color-bg-card); border-radius:var(--radius-card); }
+
+  /* logo cells */
+  .logo-cell{ display:flex; align-items:center; justify-content:center; height:120px;
+    border-radius:var(--radius-md); border:1px solid var(--color-border); }
+  .logo-cell img{ height:56px; }
+  .logo-cell--light{ background:#f4f4f5; } .logo-cell--green{ background:var(--brand-green); }
+  .logo-cell--card{ background:var(--color-bg-card); } .logo-cell--grad{ background:var(--color-bg-secondary); }
+  .sizes{ display:flex; gap:var(--space-6); align-items:flex-end; flex-wrap:wrap; }
+
+  /* code block */
+  pre{ background:var(--color-bg-letterbox); border:1px solid var(--color-border); border-radius:var(--radius-xl);
+    padding:var(--space-4); overflow:auto; color:var(--color-text-secondary); font-family:var(--font-mono);
+    font-size:var(--text-label); line-height:1.6; }
+  pre .c{ color:var(--brand-green); } pre .k{ color:var(--brand-violet-strong); }
+
+  .row-wrap{ display:flex; gap:var(--space-3); flex-wrap:wrap; align-items:center; }
+
+  /* per-component demo block with copy-code button */
+  .demo{ position:relative; }
+  .demo .copy-code{ position:absolute; top:var(--space-3); right:var(--space-3);
+    display:inline-flex; align-items:center; gap:6px; padding:6px var(--space-3);
+    background:var(--color-bg-hover); border:1px solid var(--color-border);
+    border-radius:var(--radius-md); color:var(--color-text-muted);
+    font-family:var(--font-sans); font-size:var(--text-caption); cursor:pointer;
+    opacity:0; transition:var(--transition); z-index:2; }
+  .demo:hover .copy-code, .demo .copy-code:focus-visible{ opacity:1; }
+  .demo .copy-code:hover{ color:var(--color-text-primary); border-color:var(--color-border-hover); }
+  .demo .copy-code.copied{ color:var(--brand-green); border-color:var(--brand-green-border); }
+  @media (hover:none){ .demo .copy-code{ opacity:1; } } /* touch: always show */
+  .footer{ text-align:center; color:var(--color-text-muted); font-size:var(--text-label);
+    padding:var(--space-12) 0; border-top:1px solid var(--color-border); }
+  .footer a{ color:var(--color-text-secondary); text-decoration:none; border-radius:var(--radius-sm); }
+  .footer a:hover{ color:var(--color-text-primary); }
+  .footer a:focus-visible{ outline:2px solid var(--color-focus-ring); outline-offset:3px; color:var(--color-text-primary); }
+
+  /* toast for copy feedback */
+  .toast{ position:fixed; bottom:var(--space-6); left:50%; transform:translateX(-50%) translateY(20px);
+    background:var(--color-bg-card); border:1px solid var(--brand-green-border); color:var(--brand-green);
+    padding:var(--space-3) var(--space-5); border-radius:var(--radius-pill); font-size:var(--text-label);
+    opacity:0; transition:all .2s var(--ease-standard); z-index:100; pointer-events:none; box-shadow:var(--shadow-lg); }
+  .toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+</style>
+</head>
+<body class="dx-app">
+
+<div class="site-nav">
+  <nav class="dx-nav">
+    <span class="dx-nav__brand"><img class="dx-logo" src="./brand/assets/demos-logo.svg" alt=""> Demos <span style="color:var(--color-text-muted);font-weight:var(--font-weight-normal)">Design System</span></span>
+    <div class="site-nav__links">
+      <a class="dx-nav__link" href="#color">Color</a>
+      <a class="dx-nav__link" href="#type">Type</a>
+      <a class="dx-nav__link" href="#logo">Logo</a>
+      <a class="dx-nav__link" href="#tokens">Tokens</a>
+      <a class="dx-nav__link" href="#components">Components</a>
+      <a class="dx-nav__link" href="#install">Install</a>
+    </div>
+  </nav>
+</div>
+
+<header class="container hero dx-glow">
+  <img class="hero__mark" src="./brand/assets/demos-logo-gradient.svg" alt="Demos">
+  <h1>One stack. <span class="v">Five</span> <span class="g">primitives.</span> <span class="c">One</span> brand.</h1>
+  <p>The Demos Network design system — dark-first tokens, typography, logo, and the dapp component primitives behind faucet, explorer, and beyond.</p>
+  <div class="hero__cta">
+    <a class="dx-btn dx-btn--primary" href="./brand/assets/demos-brand-assets.zip" download>⬇ Download brand kit</a>
+    <a class="dx-btn dx-btn--secondary" href="#components">View components</a>
+    <a class="dx-btn dx-btn--ghost" href="./BRAND.md">Read the guide</a>
+  </div>
+</header>
+
+<!-- COLOR -->
+<section id="color"><div class="container">
+  <p class="eyebrow">Foundations</p>
+  <h2 class="sec">Color</h2>
+  <p class="sec-lead">Dark-first. Three accents with distinct jobs: violet is identity, green is action, cyan is data. Click any swatch to copy its hex.</p>
+
+  <h3 class="sub">Brand accents</h3>
+  <div class="grid grid-4" id="sw-brand"></div>
+  <h3 class="sub">Backgrounds</h3>
+  <div class="grid grid-4" id="sw-bg"></div>
+  <h3 class="sub">Text</h3>
+  <div class="grid grid-4" id="sw-text"></div>
+  <h3 class="sub">Status</h3>
+  <div class="grid grid-4" id="sw-status"></div>
+</div></section>
+
+<!-- TYPE -->
+<section id="type"><div class="container">
+  <p class="eyebrow">Foundations</p>
+  <h2 class="sec">Typography</h2>
+  <p class="sec-lead">Inter for UI, Plus Jakarta Sans for marketing display, Fira Code for every on-chain value. All open-source.</p>
+
+  <div class="dx-card">
+    <div class="specimen"><span class="specimen__tag">display / hero</span><span class="specimen__text" style="font-family:var(--font-display);font-size:var(--text-hero);line-height:1.05;letter-spacing:-.02em">Agentic Commerce</span></div>
+    <div class="specimen"><span class="specimen__tag">display / 2xl</span><span class="specimen__text" style="font-family:var(--font-display);font-size:var(--text-2xl)">Two economies. One rail.</span></div>
+    <div class="specimen"><span class="specimen__tag">sans / xl</span><span class="specimen__text" style="font-size:var(--text-xl)">Every agent transaction clears five steps.</span></div>
+    <div class="specimen"><span class="specimen__tag">sans / base</span><span class="specimen__text" style="font-size:var(--text-base)">Body copy at 16px keeps inputs from zooming on iOS and holds readability on dark.</span></div>
+    <div class="specimen"><span class="specimen__tag">sans / label</span><span class="specimen__text" style="font-size:var(--text-label);color:var(--color-text-muted)">Field label · 14px muted</span></div>
+    <div class="specimen"><span class="specimen__tag">mono / data</span><span class="specimen__text dx-mono dx-mono--accent">0xdef…8fc2d · 999,999,995,982,000 DEMOS</span></div>
+    <div class="specimen" style="border:none"><span class="specimen__tag">eyebrow</span><span class="specimen__text" style="text-transform:uppercase;letter-spacing:var(--tracking-wide);font-size:var(--text-caption);color:var(--brand-violet-strong)">Identify · Vet · Negotiate · Settle · Verify</span></div>
+  </div>
+</div></section>
+
+<!-- LOGO -->
+<section id="logo"><div class="container">
+  <p class="eyebrow">Brand</p>
+  <h2 class="sec">Logo</h2>
+  <p class="sec-lead">Two interlocking comma forms. The default SVG uses <code class="dx-mono">currentColor</code> — set <code class="dx-mono">color</code> per surface so it themes for free.</p>
+
+  <div class="grid grid-4">
+    <div class="logo-cell logo-cell--light"><img src="./brand/assets/demos-logo.svg" style="color:#111113" alt="on light"></div>
+    <div class="logo-cell logo-cell--card"><img src="./brand/assets/demos-logo.svg" style="color:var(--color-text-primary)" alt="on card"></div>
+    <div class="logo-cell logo-cell--grad"><img src="./brand/assets/demos-logo-gradient.svg" alt="gradient"></div>
+    <div class="logo-cell logo-cell--green"><img src="./brand/assets/demos-logo.svg" style="color:var(--color-text-inverse)" alt="on green"></div>
+  </div>
+
+  <h3 class="sub">Sizes (PNG, transparent)</h3>
+  <div class="dx-card sizes">
+    <img src="./brand/assets/png/demos-logo-white-16.png" alt="16" title="16px">
+    <img src="./brand/assets/png/demos-logo-white-32.png" alt="32" title="32px">
+    <img src="./brand/assets/png/demos-logo-white-64.png" alt="64" title="64px">
+    <img src="./brand/assets/png/demos-logo-white-128.png" alt="128" title="128px">
+    <img src="./brand/assets/png/demos-logo-gradient-256.png" alt="256" title="256px" style="max-height:128px;width:auto">
+  </div>
+
+  <h3 class="sub">Download</h3>
+  <div class="row-wrap">
+    <a class="dx-btn dx-btn--primary" href="./brand/assets/demos-brand-assets.zip" download>⬇ All assets (.zip)</a>
+    <a class="dx-btn dx-btn--ghost" href="./brand/assets/demos-logo.svg" download>SVG currentColor</a>
+    <a class="dx-btn dx-btn--ghost" href="./brand/assets/demos-logo-gradient.svg" download>SVG gradient</a>
+    <a class="dx-btn dx-btn--ghost" href="./brand/assets/png/demos-logo-white-512.png" download>PNG 512</a>
+    <a class="dx-btn dx-btn--ghost" href="./brand/assets/favicon.svg" download>favicon.svg</a>
+  </div>
+</div></section>
+
+<!-- TOKENS -->
+<section id="tokens"><div class="container">
+  <p class="eyebrow">Foundations</p>
+  <h2 class="sec">Spacing, radius, elevation</h2>
+  <p class="sec-lead">Base-4 spacing. Radius 4→16 + pill. Elevation = hairline border + dark drop, never soft glow.</p>
+
+  <div class="grid grid-2">
+    <div class="dx-card">
+      <h3 class="sub" style="margin-top:0">Spacing (base-4)</h3>
+      <div id="scale-space"></div>
+    </div>
+    <div class="dx-card">
+      <h3 class="sub" style="margin-top:0">Radius</h3>
+      <div class="grid grid-4" id="radius-demos"></div>
+      <h3 class="sub">Elevation</h3>
+      <div class="grid" style="grid-template-columns:1fr 1fr 1fr;gap:var(--space-4)">
+        <div class="elev-demo" style="box-shadow:var(--shadow-sm)"></div>
+        <div class="elev-demo" style="box-shadow:var(--shadow-md)"></div>
+        <div class="elev-demo" style="box-shadow:var(--shadow-lg)"></div>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<!-- COMPONENTS -->
+<section id="components"><div class="container">
+  <p class="eyebrow">Patterns</p>
+  <h2 class="sec">Dapp components</h2>
+  <p class="sec-lead">The recurring building blocks across Demos dapps — frosted-glass cards, the green CTA, status pills, stat cards, and monospace data panels.</p>
+
+  <h3 class="sub">Buttons &amp; states</h3>
+  <div class="dx-card demo"><div class="row-wrap">
+    <button class="dx-btn dx-btn--primary">Primary</button>
+    <button class="dx-btn dx-btn--secondary">Secondary</button>
+    <button class="dx-btn dx-btn--ghost">Ghost</button>
+    <button class="dx-btn dx-btn--primary" disabled>Disabled</button>
+  </div>
+  <template class="src">&lt;button class="dx-btn dx-btn--primary"&gt;Primary&lt;/button&gt;
+&lt;button class="dx-btn dx-btn--secondary"&gt;Secondary&lt;/button&gt;
+&lt;button class="dx-btn dx-btn--ghost"&gt;Ghost&lt;/button&gt;
+&lt;button class="dx-btn dx-btn--primary" disabled&gt;Disabled&lt;/button&gt;</template></div>
+
+  <h3 class="sub">Status pills &amp; badges</h3>
+  <div class="dx-card demo"><div class="row-wrap">
+    <span class="dx-pill">Live</span>
+    <span class="dx-pill dx-pill--warning">Testnet</span>
+    <span class="dx-pill dx-pill--error">Down</span>
+    <span class="dx-pill dx-pill--neutral">Idle</span>
+    <span class="dx-badge">Transfer</span>
+  </div>
+  <template class="src">&lt;span class="dx-pill"&gt;Live&lt;/span&gt;
+&lt;span class="dx-pill dx-pill--warning"&gt;Testnet&lt;/span&gt;
+&lt;span class="dx-pill dx-pill--error"&gt;Down&lt;/span&gt;
+&lt;span class="dx-pill dx-pill--neutral"&gt;Idle&lt;/span&gt;
+&lt;span class="dx-badge"&gt;Transfer&lt;/span&gt;</template></div>
+
+  <h3 class="sub">Stat cards</h3>
+  <div class="demo">
+    <div class="grid grid-4">
+      <div class="dx-card dx-stat"><span class="dx-stat__label">Total Blocks</span><span class="dx-stat__value">6,813</span></div>
+      <div class="dx-card dx-stat"><span class="dx-stat__label">Transactions</span><span class="dx-stat__value">1,042,156</span></div>
+      <div class="dx-card dx-stat"><span class="dx-stat__label">Addresses</span><span class="dx-stat__value">2,940</span></div>
+      <div class="dx-card dx-stat"><span class="dx-stat__label">Identities</span><span class="dx-stat__value">318</span></div>
+    </div>
+    <template class="src">&lt;div class="dx-card dx-stat"&gt;
+  &lt;span class="dx-stat__label"&gt;Total Blocks&lt;/span&gt;
+  &lt;span class="dx-stat__value"&gt;6,813&lt;/span&gt;
+&lt;/div&gt;</template>
+  </div>
+
+  <h3 class="sub">Data panel &amp; form</h3>
+  <div class="grid grid-2">
+    <div class="dx-card demo">
+      <div class="dx-row"><span class="dx-row__label">Faucet Address</span><span class="dx-mono dx-mono--cyan">0xdef…8fc2d</span></div>
+      <div class="dx-row"><span class="dx-row__label">Available Balance</span><span class="dx-mono">999,999,995,982,000 DEMOS</span></div>
+      <div class="dx-row" style="border:none"><span class="dx-row__label">Status</span><span class="dx-mono dx-mono--accent">Connected</span></div>
+      <template class="src">&lt;div class="dx-card"&gt;
+  &lt;div class="dx-row"&gt;
+    &lt;span class="dx-row__label"&gt;Faucet Address&lt;/span&gt;
+    &lt;span class="dx-mono dx-mono--cyan"&gt;0xdef…8fc2d&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class="dx-row" style="border:none"&gt;
+    &lt;span class="dx-row__label"&gt;Status&lt;/span&gt;
+    &lt;span class="dx-mono dx-mono--accent"&gt;Connected&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</template>
+    </div>
+    <div class="dx-card demo">
+      <label class="dx-row__label" for="addr2">Wallet Address</label>
+      <input id="addr2" class="dx-input" placeholder="Enter your wallet address (0x…)" style="margin:var(--space-2) 0 var(--space-4)">
+      <button class="dx-btn dx-btn--primary" style="width:100%">Request Tokens</button>
+      <template class="src">&lt;label class="dx-row__label" for="addr"&gt;Wallet Address&lt;/label&gt;
+&lt;input id="addr" class="dx-input" placeholder="Enter your wallet address (0x…)"&gt;
+&lt;button class="dx-btn dx-btn--primary"&gt;Request Tokens&lt;/button&gt;</template>
+    </div>
+  </div>
+</div></section>
+
+<!-- INSTALL -->
+<section id="install"><div class="container">
+  <p class="eyebrow">Build</p>
+  <h2 class="sec">Install</h2>
+  <p class="sec-lead">Import once, reference tokens everywhere. Plain CSS or Tailwind.</p>
+
+  <div class="grid grid-2">
+    <div>
+      <h3 class="sub" style="margin-top:0">Plain CSS</h3>
+<pre>&lt;<span class="k">link</span> rel="stylesheet" href="<span class="c">brand/tokens.css</span>"&gt;
+&lt;<span class="k">link</span> rel="stylesheet" href="<span class="c">brand/fonts.css</span>"&gt;
+&lt;<span class="k">link</span> rel="stylesheet" href="<span class="c">brand/components.css</span>"&gt;</pre>
+    </div>
+    <div>
+      <h3 class="sub" style="margin-top:0">Tailwind</h3>
+<pre><span class="c">// tailwind.config.js</span>
+module.exports = {
+  <span class="k">presets</span>: [require('<span class="c">./brand/tailwind.preset.js</span>')],
+  content: ['./src/**/*.{html,js,ts,jsx,tsx}'],
+};</pre>
+    </div>
+  </div>
+  <p class="sec-lead" style="margin-top:var(--space-6)">Fonts load from Google Fonts CDN via <code class="dx-mono">fonts.css</code>. For production, self-host with next/font or @fontsource.</p>
+</div></section>
+
+<footer class="footer">
+  <p><img class="dx-logo" src="./brand/assets/demos-logo.svg" alt="" style="height:1.2em;color:var(--color-text-secondary)"> Demos Network Design System</p>
+  <p><a href="https://demos.network">demos.network</a> · <a href="https://scan.demos.network">Explorer</a> · <a href="https://faucet.demos.sh">Faucet</a> · <a href="./BRAND.md">Brand guide</a></p>
+  <p style="color:var(--color-text-faint)">© 2026 Demos Network</p>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+const COLORS = {
+  brand: [
+    ['Violet','#7c3aed','--brand-violet'], ['Violet strong','#a78bfa','--brand-violet-strong'],
+    ['Green','#34d399','--brand-green'], ['Green strong','#10b981','--brand-green-strong'],
+    ['Cyan','#06b6d4','--brand-cyan'], ['Cyan strong','#22d3ee','--brand-cyan-strong'],
+  ],
+  bg: [
+    ['Letterbox','#06060a','--color-bg-letterbox'], ['Primary','#08080a','--color-bg-primary'],
+    ['Secondary','#0e0e11','--color-bg-secondary'], ['Card','#111113','--color-bg-card'],
+    ['Card hover','#16161a','--color-bg-card-hover'], ['Tinted','#13121f','--color-bg-tinted'],
+  ],
+  text: [
+    ['Primary','#f4f4f5','--color-text-primary'], ['Secondary','#b4b4bb','--color-text-secondary'],
+    ['Muted','#8a8a93','--color-text-muted'], ['Faint','#7c7c87','--color-text-faint'],
+    ['Inverse','#0a0a0a','--color-text-inverse'],
+  ],
+  status: [
+    ['Success','#34d399','--color-success'], ['Warning','#fbbf24','--color-warning'],
+    ['Error','#f87171','--color-error'], ['Info','#818cf8','--color-info'],
+  ],
+};
+function swatch([name,hex,varname]){
+  return `<div class="swatch" data-copy="${hex}" role="button" tabindex="0" aria-label="Copy ${name} ${hex}">
+    <div class="swatch__chip" style="background:${hex}"></div>
+    <div class="swatch__meta">
+      <div class="swatch__name">${name}</div>
+      <div class="swatch__val">${hex}</div>
+      <div class="swatch__var">${varname}</div>
+    </div></div>`;
+}
+for(const [k,list] of Object.entries(COLORS)){
+  document.getElementById('sw-'+k).innerHTML = list.map(swatch).join('');
+}
+
+// spacing scale bars
+const SPACE = [[1,4],[2,8],[3,12],[4,16],[5,20],[6,24],[8,32],[10,40],[12,48],[16,64],[20,80],[24,96]];
+document.getElementById('scale-space').innerHTML = SPACE.map(([n,px])=>
+  `<div class="scale-row"><span class="scale-row__name">--space-${n}</span>
+   <div class="scale-bar" style="width:${px}px"></div>
+   <span class="swatch__val">${px}px</span></div>`).join('');
+
+// radius demos
+const RADII = [['sm','4px'],['md','6px'],['button','10px'],['card','14px'],['2xl','16px'],['pill','9999px']];
+document.getElementById('radius-demos').innerHTML = RADII.map(([n,v])=>
+  `<div style="text-align:center"><div class="radius-demo" style="border-radius:var(--radius-${n});margin:0 auto"></div>
+   <div class="swatch__var" style="margin-top:6px">${n}</div></div>`).join('');
+
+// toast helper
+const toast = document.getElementById('toast');
+let toastTimer;
+function showToast(msg){
+  toast.textContent = msg;
+  toast.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>toast.classList.remove('show'), 1400);
+}
+
+// per-component copy-code: inject a button into every .demo with a <template.src>
+document.querySelectorAll('.demo').forEach(demo=>{
+  const tpl = demo.querySelector('template.src');
+  if(!tpl) return;
+  let btn = demo.querySelector('.copy-code');
+  if(!btn){ btn = document.createElement('button'); btn.type='button';
+    btn.className='copy-code'; btn.textContent='Copy code'; demo.prepend(btn); }
+  btn.addEventListener('click', async ()=>{
+    const code = tpl.innerHTML.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&').trim();
+    try{ await navigator.clipboard.writeText(code); }catch(_){}
+    btn.textContent='Copied ✓'; btn.classList.add('copied');
+    showToast('Component code copied');
+    setTimeout(()=>{ btn.textContent='Copy code'; btn.classList.remove('copied'); }, 1400);
+  });
+});
+
+// click-to-copy color swatches (keyboard-accessible: role=button + Enter/Space)
+function copySwatch(sw){
+  const val = sw.dataset.copy;
+  navigator.clipboard?.writeText(val);
+  showToast('Copied ' + val);
+}
+document.addEventListener('click', e=>{
+  const sw = e.target.closest('[data-copy]');
+  if(sw) copySwatch(sw);
+});
+document.addEventListener('keydown', e=>{
+  if(e.key!=='Enter' && e.key!==' ') return;
+  const sw = e.target.closest('[data-copy]');
+  if(!sw) return;
+  e.preventDefault();
+  copySwatch(sw);
+});
+
+// active nav link on scroll
+const links = [...document.querySelectorAll('.site-nav__links a')];
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(en=>{
+    if(en.isIntersecting){
+      links.forEach(l=>l.removeAttribute('aria-current'));
+      const a = links.find(l=>l.getAttribute('href')==='#'+en.target.id);
+      a?.setAttribute('aria-current','page');
+    }
+  });
+}, {rootMargin:'-40% 0px -55% 0px'});
+document.querySelectorAll('section[id]').forEach(s=>obs.observe(s));
+</script>
+</body>
+</html>

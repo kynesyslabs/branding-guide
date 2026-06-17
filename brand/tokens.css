@@ -1,0 +1,200 @@
+/*
+ * Demos Network — Brand Design Tokens
+ * Extracted from demos.network, scan.demos.network, faucet.demos.sh, kynesys.xyz
+ * Dark-first. These :root variables are the canonical source of truth.
+ *
+ * Usage: import this file once at app root, then reference var(--color-*) everywhere.
+ * Tailwind users: see tailwind.preset.js (maps these to theme()).
+ */
+
+:root {
+  color-scheme: dark;
+
+  /* ── Brand palette ─────────────────────────────────────────────── */
+  /* Primary accent: violet (brand identity, glows, focus, links)      */
+  --brand-violet:          #7c3aed;
+  --brand-violet-strong:   #a78bfa; /* lighter, for text-on-dark        */
+  --brand-violet-soft:     #7c3aed1f; /* 12% — subtle fills             */
+  --brand-violet-border:   #7c3aed4d; /* 30% — borders                  */
+  /* Note: focus rings use --color-focus-ring (#a78bfacc), not raw violet —
+     a 32%-alpha violet on near-black gives ~1.3:1 and fails WCAG SC 1.4.11. */
+
+  /* Action accent: emerald (primary CTAs, success, "live")            */
+  --brand-green:           #34d399;
+  --brand-green-strong:    #10b981;
+  --brand-green-soft:      #10b9811f;
+  --brand-green-border:    #10b9814d;
+
+  /* Secondary accent: cyan (data highlights, secondary emphasis)      */
+  --brand-cyan:            #06b6d4;
+  --brand-cyan-strong:     #22d3ee;
+  --brand-cyan-soft:       #06b6d41f;
+  --brand-cyan-border:     #06b6d44d;
+
+  /* ── Backgrounds (near-black, layered) ─────────────────────────── */
+  --color-bg-letterbox:    #06060a; /* deepest, page chrome / letterbox */
+  --color-bg-primary:      #08080a; /* app background                   */
+  --color-bg-base:         #0a0a0a; /* alt base                         */
+  --color-bg-secondary:    #0e0e11; /* raised surface / glass           */
+  --color-bg-card:         #111113; /* cards, panels                    */
+  --color-bg-card-hover:   #16161a; /* card hover                       */
+  --color-bg-hover:        #1d1d22; /* interactive hover                */
+  --color-bg-tinted:       #13121f; /* violet-tinted surface            */
+
+  /* Frosted-glass surfaces (translucent + backdrop-blur). Sit these over
+     the violet glow / textured bg so the blur has something to refract. */
+  --glass-card:            #14141aa6; /* ~65% — cards                     */
+  --glass-card-hover:      #1a1a22bf; /* ~75%                             */
+  --glass-panel:           #0e0e11cc; /* ~80% — nav / sticky panels       */
+  --glass-border:          #ffffff1f; /* slightly brighter edge for glass */
+
+  /* ── Text ──────────────────────────────────────────────────────── */
+  --color-text-primary:    #f4f4f5; /* headings, key text               */
+  --color-text-secondary:  #b4b4bb; /* body                             */
+  --color-text-muted:      #8a8a93; /* labels, captions                 */
+  --color-text-faint:      #7c7c87; /* placeholders, disabled — AA 4.5:1 on bg-secondary/card/primary */
+  --color-text-inverse:    #0a0a0a; /* text on green/light buttons      */
+
+  /* ── Borders (white at low alpha — the dark-UI hairline) ────────── */
+  --color-border-subtle:   #ffffff0e; /* 5%                             */
+  --color-border:          #ffffff17; /* 9% — default                   */
+  --color-border-strong:   #ffffff26; /* 15%                            */
+  --color-border-hover:    #ffffff29; /* 16%                            */
+
+  /* ── Semantic status ───────────────────────────────────────────── */
+  --color-success:         #34d399;
+  --color-success-soft:    #10b9811f;
+  --color-success-muted:   #34d39921;
+  --color-warning:         #fbbf24;
+  --color-warning-soft:    #f59e0b1f;
+  --color-warning-muted:   #fbbf2421;
+  --color-error:           #f87171;
+  --color-error-soft:      #ef44441f;
+  --color-error-muted:     #f8717121;
+  --color-info:            #818cf8;
+  --color-info-soft:       #3b82f61f;
+  --color-info-muted:      #818cf824;
+
+  /* ── Focus ─────────────────────────────────────────────────────── */
+  /* Two-layer ring: 1px dark offset separates the ring from the control,
+     then a 3px violet glow. The violet alone (~1.3:1 on near-black) fails
+     WCAG 2.2 SC 1.4.11 (3:1 for focus indicators); the dark offset + a
+     higher-opacity violet make it visible on any surface. */
+  --color-focus-ring:      #a78bfacc; /* violet-strong @ 80% — 3:1+ on dark */
+  --focus-ring:            0 0 0 1px var(--color-bg-primary), 0 0 0 3px var(--color-focus-ring);
+
+  /* ── Gradients (signature violet radial glow) ──────────────────── */
+  --glow-hero:    radial-gradient(60% 50% at 50% 35%, #7c3aed1a 0%, #7c3aed00 65%);
+  --glow-ambient: radial-gradient(520px at 50% 30%, #7c3aed1a, #7c3aed08 35%, #00000000 60%);
+  --vignette:     radial-gradient(75% 55%, #00000000 0%, #000000b3 100%);
+
+  /* ── Typography ────────────────────────────────────────────────── */
+  /* UI / app text (dapps): Inter. Display (marketing): Plus Jakarta.  */
+  --font-sans:    "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Plus Jakarta Sans", "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono:    "SF Mono", "Fira Code", "Source Code Pro", "Fira Mono", Menlo, Monaco, monospace;
+
+  --font-weight-normal:   400;
+  --font-weight-medium:   500;
+  --font-weight-semibold: 600;
+  --font-weight-bold:     700;
+
+  /* Type scale (rem). Fluid clamps for hero/headings on marketing.    */
+  --text-caption:   0.75rem;   /* 12px */
+  --text-label:     0.875rem;  /* 14px */
+  --text-base:      1rem;      /* 16px — min body, prevents iOS zoom    */
+  --text-lg:        1.125rem;  /* 18px */
+  --text-xl:        1.25rem;   /* 20px */
+  --text-2xl:       1.5rem;    /* 24px */
+  --text-3xl:       1.875rem;  /* 30px */
+  --text-hero:      3rem;      /* 48px */
+
+  --leading-tight:  1.1;
+  --leading-snug:   1.35;
+  --leading-normal: 1.5;
+  --leading-body:   1.6;
+
+  --tracking-tight: -0.02em;   /* hero/display */
+  --tracking-wide:  0.12em;    /* uppercase eyebrows / kynesys editorial */
+
+  /* Fluid (marketing pages) */
+  --text-fluid-hero: clamp(1.375rem, 0.9rem + 2.4vw, 2.5rem);
+  --text-fluid-h2:   clamp(2rem, 1.2rem + 4vw, 4.25rem);
+  --text-fluid-h3:   clamp(1.25rem, 1rem + 1.4vw, 2rem);
+  --text-fluid-body: clamp(0.95rem, 0.85rem + 0.55vw, 1.3rem);
+
+  /* ── Spacing (base-4 grid) ─────────────────────────────────────── */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+  --space-32: 128px;
+  --space-card-padding: 24px;
+
+  /* ── Radius ────────────────────────────────────────────────────── */
+  --radius-sm:     4px;   /* badges               */
+  --radius-md:     6px;   /* chips, small inputs  */
+  --radius-lg:     8px;   /* buttons (compact)    */
+  --radius-button: 10px;  /* primary buttons      */
+  --radius-xl:     12px;  /* inputs, small cards  */
+  --radius-card:   14px;  /* cards, panels        */
+  --radius-2xl:    16px;  /* large surfaces       */
+  --radius-pill:   9999px;/* pills, status, avatar*/
+
+  /* ── Elevation (hairline border + dark drop — the dark-UI shadow) ─ */
+  --shadow-sm: 0 1px 2px #0006;
+  --shadow-md: 0 0 0 1px #ffffff0e, 0 2px 6px #0006;
+  --shadow-lg: 0 0 0 1px #ffffff0e, 0 8px 24px #00000080;
+
+  /* ── Blur (glass surfaces) ─────────────────────────────────────── */
+  --blur-sm:  8px;
+  --blur-md:  12px;
+  --blur-2xl: 40px;
+
+  /* ── Motion (keep brief; respect reduced-motion) ───────────────── */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --duration-fast: 150ms;
+  --duration-base: 250ms;
+  --transition:    all var(--duration-base) var(--ease-standard);
+}
+
+/* Optional light mode. Demos is dark-first; this is a sane fallback,
+   not a primary target. Override only what changes. */
+@media (prefers-color-scheme: light) {
+  :root.supports-light {
+    color-scheme: light;
+    --color-bg-letterbox:   #f4f4f5;
+    --color-bg-primary:     #ffffff;
+    --color-bg-base:        #ffffff;
+    --color-bg-secondary:   #f8f9fa;
+    --color-bg-card:        #ffffff;
+    --color-bg-card-hover:  #f4f4f5;
+    --color-text-primary:   #111113;
+    --color-text-secondary: #3f3f46;
+    --color-text-muted:     #71717a;
+    --color-text-faint:     #a1a1aa;
+    --color-text-inverse:   #ffffff;
+    --color-border-subtle:  #0000000a;
+    --color-border:         #00000014;
+    --color-border-strong:  #00000026;
+    --color-border-hover:   #00000029;
+    --shadow-md: 0 0 0 1px #0000000f, 0 2px 6px #0000001a;
+    --shadow-lg: 0 0 0 1px #0000000f, 0 8px 24px #00000026;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 0ms;
+    --duration-base: 0ms;
+  }
+  html { scroll-behavior: auto; }
+}
