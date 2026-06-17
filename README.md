@@ -6,6 +6,8 @@ apps don't have to guess at the colors.
 
 Dark-first. Violet for identity, green for actions, cyan for data.
 
+Live page: https://kynesyslabs.github.io/branding-guide/
+
 ## What's here
 
 - `brand/tokens.css` — all the CSS variables. Import this and use `var(--...)`.
