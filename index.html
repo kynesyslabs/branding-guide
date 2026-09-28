@@ -18,44 +18,36 @@
     *{ animation:none !important; transition:none !important; }
   }
 
-  /* ambient brand glow fixed behind everything (so glass refracts) */
-  body::before{
-    content:""; position:fixed; inset:0; z-index:0; pointer-events:none;
-    background:
-      radial-gradient(38% 28% at 22% 12%, #7c3aed33 0%, #7c3aed00 60%),
-      radial-gradient(32% 26% at 82% 22%, #a78bfa20 0%, #a78bfa00 60%),
-      radial-gradient(36% 30% at 60% 88%, #7c3aed1f 0%, #7c3aed00 60%);
-  }
-
   /* layout */
-  .container{ max-width:1120px; margin:0 auto; padding:0 var(--space-6); position:relative; z-index:1; }
-  section{ padding:var(--space-20) 0; border-top:1px solid var(--color-border-subtle); position:relative; z-index:1; }
+  .container{ max-width:var(--layout-content); margin:0 auto; padding:0 var(--space-6); position:relative; z-index:1; }
+  section{ padding:var(--layout-section) 0; border-top:1px solid var(--color-border-subtle); position:relative; z-index:1; }
   section:first-of-type{ border-top:none; }
-  .eyebrow{ text-transform:uppercase; letter-spacing:var(--tracking-wide); font-size:var(--text-caption);
+  .eyebrow{ text-transform:uppercase; letter-spacing:var(--tracking-eyebrow); font-size:var(--text-caption);
     color:var(--brand-violet-strong); font-weight:var(--font-weight-semibold); margin:0 0 var(--space-3); }
-  h2.sec{ font-family:var(--font-display); font-size:var(--text-3xl); color:var(--color-text-primary);
-    margin:0 0 var(--space-2); letter-spacing:-0.01em; }
-  .sec-lead{ color:var(--color-text-muted); max-width:60ch; margin:0 0 var(--space-8); font-size:var(--text-lg); }
+  h2.sec{ font-family:var(--font-display); font-size:var(--text-fluid-h2); line-height:var(--leading-tight); color:var(--color-text-primary);
+    margin:0 0 var(--space-2); letter-spacing:var(--tracking-section); }
+  .sec-lead{ color:var(--color-text-secondary); max-width:60ch; margin:0 0 var(--space-8); font-size:var(--text-lg); }
   h3.sub{ color:var(--color-text-primary); font-size:var(--text-xl); margin:var(--space-10) 0 var(--space-4); }
 
   /* sticky site nav */
   .site-nav{ position:sticky; top:0; z-index:50; }
-  .site-nav .dx-nav{ max-width:1120px; margin:0 auto; }
+  .site-nav .dx-nav{ max-width:var(--layout-content); margin:0 auto; }
   .site-nav__links{ display:flex; gap:var(--space-5); margin-left:auto; }
-  @media (max-width:760px){ .site-nav__links{ display:none; } }
+  @media (max-width:760px){ html{ scroll-padding-top:176px; } .site-nav__links{ flex-wrap:wrap; margin-left:0; gap:var(--space-3); } }
 
   /* hero */
-  .hero{ text-align:center; padding:var(--space-24) 0 var(--space-20); }
+  .hero{ text-align:center; padding:var(--space-24) var(--layout-gutter) var(--space-20); }
   .hero__mark{ height:80px; margin-bottom:var(--space-6); color:var(--color-text-primary); }
-  .hero h1{ font-family:var(--font-display); font-size:var(--text-fluid-h2); line-height:1.05;
-    letter-spacing:-0.02em; color:var(--color-text-primary); margin:0 auto var(--space-4); max-width:18ch; }
+  .hero h1{ font-family:var(--font-display); font-size:var(--text-fluid-hero); line-height:var(--leading-hero);
+    letter-spacing:var(--tracking-hero); color:var(--color-text-primary); margin:0 auto var(--space-4); max-width:18ch; }
   .hero h1 .v{ color:var(--brand-violet-strong); } .hero h1 .g{ color:var(--brand-violet); } .hero h1 .c{ color:var(--brand-violet-strong); }
   .hero p{ color:var(--color-text-secondary); font-size:var(--text-fluid-body); max-width:54ch; margin:0 auto var(--space-8); }
   .hero__cta{ display:flex; gap:var(--space-3); justify-content:center; flex-wrap:wrap; }
 
   /* grids */
+  .grid > *, .specimen__text { min-width:0; overflow-wrap:anywhere; }
   .grid{ display:grid; gap:var(--space-4); }
-  .grid-2{ grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); }
+  .grid-2{ grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr)); }
   .grid-3{ grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); }
   .grid-4{ grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); }
 
@@ -67,8 +59,8 @@
   .swatch__chip{ height:72px; }
   .swatch__meta{ padding:var(--space-3); }
   .swatch__name{ color:var(--color-text-primary); font-size:var(--text-label); font-weight:var(--font-weight-medium); }
-  .swatch__val{ color:var(--color-text-muted); font-family:var(--font-mono); font-size:var(--text-caption); margin-top:2px; }
-  .swatch__var{ color:var(--color-text-faint); font-family:var(--font-mono); font-size:var(--text-caption); }
+  .swatch__val{ color:var(--color-text-secondary); font-family:var(--font-mono); font-size:var(--text-caption); margin-top:2px; }
+  .swatch__var{ overflow-wrap:anywhere; color:var(--color-text-faint); font-family:var(--font-mono); font-size:var(--text-caption); }
 
   /* type specimen */
   .specimen{ padding:var(--space-4) 0; border-bottom:1px solid var(--color-border-subtle); display:flex;
@@ -78,7 +70,7 @@
 
   /* token scale rows */
   .scale-row{ display:flex; align-items:center; gap:var(--space-4); padding:var(--space-2) 0; }
-  .scale-row__name{ width:120px; flex:none; color:var(--color-text-muted); font-family:var(--font-mono); font-size:var(--text-caption); }
+  .scale-row__name{ width:120px; flex:none; color:var(--color-text-secondary); font-family:var(--font-mono); font-size:var(--text-caption); }
   .scale-bar{ background:var(--brand-violet); height:16px; border-radius:var(--radius-sm); }
   .radius-demo{ width:72px; height:72px; background:var(--brand-violet-soft); border:1px solid var(--brand-violet-border); }
   .elev-demo{ width:100%; height:72px; background:var(--color-bg-card); border-radius:var(--radius-card); }
@@ -87,7 +79,7 @@
   .logo-cell{ display:flex; align-items:center; justify-content:center; height:120px;
     border-radius:var(--radius-md); border:1px solid var(--color-border); }
   .logo-cell img{ height:56px; }
-  .logo-cell--light{ background:#f4f4f5; } .logo-cell--violet{ background:var(--brand-violet); }
+  .logo-cell--light{ background:var(--color-text-primary); } .logo-cell--violet{ background:var(--brand-violet); }
   .logo-cell--card{ background:var(--color-bg-card); } .logo-cell--grad{ background:var(--color-bg-secondary); }
   .sizes{ display:flex; gap:var(--space-6); align-items:flex-end; flex-wrap:wrap; }
 
@@ -95,23 +87,23 @@
   pre{ background:var(--color-bg-letterbox); border:1px solid var(--color-border); border-radius:var(--radius-xl);
     padding:var(--space-4); overflow:auto; color:var(--color-text-secondary); font-family:var(--font-mono);
     font-size:var(--text-label); line-height:1.6; }
-  pre .c{ color:var(--color-text-muted); } pre .k{ color:var(--brand-violet-strong); }
+  pre .c{ color:var(--color-text-secondary); } pre .k{ color:var(--brand-violet-strong); }
 
   .row-wrap{ display:flex; gap:var(--space-3); flex-wrap:wrap; align-items:center; }
 
   /* per-component demo block with copy-code button */
-  .demo{ position:relative; }
+  .demo{ position:relative; padding-top:var(--space-16); }
   .demo .copy-code{ position:absolute; top:var(--space-3); right:var(--space-3);
     display:inline-flex; align-items:center; gap:6px; padding:6px var(--space-3);
     background:var(--color-bg-hover); border:1px solid var(--color-border);
-    border-radius:var(--radius-md); color:var(--color-text-muted);
+    border-radius:var(--radius-md); color:var(--color-text-secondary);
     font-family:var(--font-sans); font-size:var(--text-caption); cursor:pointer;
     opacity:0; transition:var(--transition); z-index:2; }
   .demo:hover .copy-code, .demo .copy-code:focus-visible{ opacity:1; }
   .demo .copy-code:hover{ color:var(--color-text-primary); border-color:var(--color-border-hover); }
   .demo .copy-code.copied{ color:var(--color-success); border-color:var(--brand-violet-border); }
   @media (hover:none){ .demo .copy-code{ opacity:1; } } /* touch: always show */
-  .footer{ text-align:center; color:var(--color-text-muted); font-size:var(--text-label);
+  .footer{ text-align:center; color:var(--color-text-secondary); font-size:var(--text-label);
     padding:var(--space-12) 0; border-top:1px solid var(--color-border); }
   .footer a{ color:var(--color-text-secondary); text-decoration:none; border-radius:var(--radius-sm); }
   .footer a:hover{ color:var(--color-text-primary); }
@@ -119,7 +111,7 @@
 
   /* toast for copy feedback */
   .toast{ position:fixed; bottom:var(--space-6); left:50%; transform:translateX(-50%) translateY(20px);
-    background:var(--color-bg-card); border:1px solid var(--brand-violet-border); color:var(--color-success);
+    max-width:calc(100vw - 32px); width:max-content; background:var(--color-bg-card); border:1px solid var(--brand-violet-border); color:var(--color-success);
     padding:var(--space-3) var(--space-5); border-radius:var(--radius-pill); font-size:var(--text-label);
     opacity:0; transition:all .2s var(--ease-standard); z-index:100; pointer-events:none; box-shadow:var(--shadow-lg); }
   .toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
@@ -129,7 +121,7 @@
 
 <div class="site-nav">
   <nav class="dx-nav">
-    <span class="dx-nav__brand"><img class="dx-logo" src="./brand/assets/demos-logo.svg" alt=""> Demos <span style="color:var(--color-text-muted);font-weight:var(--font-weight-normal)">Design System</span></span>
+    <span class="dx-nav__brand"><img class="dx-logo" src="./brand/assets/demos-logo-white.svg" alt=""> Demos <span style="color:var(--color-text-secondary);font-weight:var(--font-weight-normal)">Design System</span></span>
     <div class="site-nav__links">
       <a class="dx-nav__link" href="#color">Color</a>
       <a class="dx-nav__link" href="#type">Type</a>
@@ -143,27 +135,30 @@
 
 <header class="container hero dx-glow">
   <img class="hero__mark" src="./brand/assets/demos-logo-gradient.svg" alt="Demos">
-  <h1>One stack. <span class="v">Five</span> <span class="g">primitives.</span> <span class="c">One</span> brand.</h1>
-  <p>The Demos Network design system — dark-first tokens, typography, logo, and the dapp component primitives behind faucet, explorer, and beyond.</p>
+  <h1>One network.<br><span class="v">One design language.</span></h1>
+  <p>Dark surfaces. Clear typography. One purple accent. A reusable design system aligned with demos.network, under a strict neutral-and-purple palette.</p>
   <div class="hero__cta">
-    <a class="dx-btn dx-btn--primary" href="./brand/assets/demos-brand-assets.zip" download>⬇ Download brand kit</a>
+    <a class="dx-btn dx-btn--primary dx-btn--marketing" href="./brand/assets/demos-brand-assets.zip" download>↓ Download brand kit</a>
     <a class="dx-btn dx-btn--secondary" href="#components">View components</a>
     <a class="dx-btn dx-btn--ghost" href="./BRAND.md">Read the guide</a>
   </div>
 </header>
 
+<main>
 <!-- COLOR -->
 <section id="color"><div class="container">
   <p class="eyebrow">Foundations</p>
   <h2 class="sec">Color</h2>
-  <p class="sec-lead">Dark-first. One accent: violet — identity and action alike. Data and secondary emphasis use the neutral text tokens. Click any swatch to copy its hex.</p>
+  <p class="sec-lead">Dark-first. One accent: violet — identity and action alike. Data and secondary emphasis use the neutral text tokens. Click any swatch to copy its hex. Status names remain compatible; meaning comes from visible labels and icons, never color alone.</p>
 
+  <p class="sec-lead">Source: <a href="https://demos.network/">demos.network</a>, captured 2026-09-28. Extra semantic colors on the site are deliberately excluded; this is not exact color parity. <a href="./PROVENANCE.md">Source details and palette policy</a>.</p>
   <h3 class="sub">Brand accents</h3>
   <div class="grid grid-4" id="sw-brand"></div>
   <h3 class="sub">Backgrounds</h3>
   <div class="grid grid-4" id="sw-bg"></div>
   <h3 class="sub">Text</h3>
   <div class="grid grid-4" id="sw-text"></div>
+  <p class="sec-lead">Muted #6b7280 is retained for decorative or disabled elements only. Small labels and captions use secondary #9ca3af.</p>
   <h3 class="sub">Status</h3>
   <div class="grid grid-4" id="sw-status"></div>
 </div></section>
@@ -172,16 +167,16 @@
 <section id="type"><div class="container">
   <p class="eyebrow">Foundations</p>
   <h2 class="sec">Typography</h2>
-  <p class="sec-lead">Inter for UI, Plus Jakarta Sans for marketing display, Fira Code for every on-chain value. All open-source.</p>
+  <p class="sec-lead">Plus Jakarta Sans for all headings, body and UI. Source Code Pro for technical text. Regular 400 headings, with tight tracking and space to breathe.</p>
 
   <div class="dx-card">
-    <div class="specimen"><span class="specimen__tag">display / hero</span><span class="specimen__text" style="font-family:var(--font-display);font-size:var(--text-hero);line-height:1.05;letter-spacing:-.02em">Agentic Commerce</span></div>
+    <div class="specimen"><span class="specimen__tag">display / hero</span><span class="specimen__text" style="font-family:var(--font-display);font-size:var(--text-fluid-hero);line-height:var(--leading-hero);letter-spacing:var(--tracking-hero)">Demos Network</span></div>
     <div class="specimen"><span class="specimen__tag">display / 2xl</span><span class="specimen__text" style="font-family:var(--font-display);font-size:var(--text-2xl)">Two economies. One rail.</span></div>
-    <div class="specimen"><span class="specimen__tag">sans / xl</span><span class="specimen__text" style="font-size:var(--text-xl)">Every agent transaction clears five steps.</span></div>
+    <div class="specimen"><span class="specimen__tag">sans / xl</span><span class="specimen__text" style="font-size:var(--text-xl)">Consistent interfaces across the network.</span></div>
     <div class="specimen"><span class="specimen__tag">sans / base</span><span class="specimen__text" style="font-size:var(--text-base)">Body copy at 16px keeps inputs from zooming on iOS and holds readability on dark.</span></div>
-    <div class="specimen"><span class="specimen__tag">sans / label</span><span class="specimen__text" style="font-size:var(--text-label);color:var(--color-text-muted)">Field label · 14px muted</span></div>
+    <div class="specimen"><span class="specimen__tag">sans / label</span><span class="specimen__text" style="font-size:var(--text-label);color:var(--color-text-secondary)">Field label · 14px secondary</span></div>
     <div class="specimen"><span class="specimen__tag">mono / data</span><span class="specimen__text dx-mono dx-mono--accent">0xdef…8fc2d · 999,999,995,982,000 DEMOS</span></div>
-    <div class="specimen" style="border:none"><span class="specimen__tag">eyebrow</span><span class="specimen__text" style="text-transform:uppercase;letter-spacing:var(--tracking-wide);font-size:var(--text-caption);color:var(--brand-violet-strong)">Identify · Vet · Negotiate · Settle · Verify</span></div>
+    <div class="specimen" style="border:none"><span class="specimen__tag">eyebrow</span><span class="specimen__text" style="text-transform:uppercase;letter-spacing:var(--tracking-eyebrow);font-size:var(--text-caption);color:var(--brand-violet-strong)">Identity · Transactions · Verification</span></div>
   </div>
 </div></section>
 
@@ -189,13 +184,13 @@
 <section id="logo"><div class="container">
   <p class="eyebrow">Brand</p>
   <h2 class="sec">Logo</h2>
-  <p class="sec-lead">Two interlocking comma forms. The default SVG uses <code class="dx-mono">currentColor</code> — set <code class="dx-mono">color</code> per surface so it themes for free.</p>
+  <p class="sec-lead">Two interlocking comma forms. Inline SVG inherits <code class="dx-mono">currentColor</code>. Use the fixed light SVG for images on dark or purple surfaces.</p>
 
   <div class="grid grid-4">
-    <div class="logo-cell logo-cell--light"><img src="./brand/assets/demos-logo.svg" style="color:#111113" alt="on light"></div>
-    <div class="logo-cell logo-cell--card"><img src="./brand/assets/demos-logo.svg" style="color:var(--color-text-primary)" alt="on card"></div>
+    <div class="logo-cell logo-cell--light"><img src="./brand/assets/demos-logo.svg" alt="on light"></div>
+    <div class="logo-cell logo-cell--card"><img src="./brand/assets/demos-logo-white.svg" style="color:var(--color-text-primary)" alt="on card"></div>
     <div class="logo-cell logo-cell--grad"><img src="./brand/assets/demos-logo-gradient.svg" alt="gradient"></div>
-    <div class="logo-cell logo-cell--violet"><img src="./brand/assets/demos-logo.svg" style="color:var(--color-text-primary)" alt="on violet"></div>
+    <div class="logo-cell logo-cell--violet"><img src="./brand/assets/demos-logo-white.svg" style="color:var(--color-text-primary)" alt="on violet"></div>
   </div>
 
   <h3 class="sub">Sizes (PNG, transparent)</h3>
@@ -209,7 +204,7 @@
 
   <h3 class="sub">Download</h3>
   <div class="row-wrap">
-    <a class="dx-btn dx-btn--primary" href="./brand/assets/demos-brand-assets.zip" download>⬇ All assets (.zip)</a>
+    <a class="dx-btn dx-btn--primary" href="./brand/assets/demos-brand-assets.zip" download>↓ All assets (.zip)</a>
     <a class="dx-btn dx-btn--ghost" href="./brand/assets/demos-logo.svg" download>SVG currentColor</a>
     <a class="dx-btn dx-btn--ghost" href="./brand/assets/demos-logo-gradient.svg" download>SVG gradient</a>
     <a class="dx-btn dx-btn--ghost" href="./brand/assets/png/demos-logo-white-512.png" download>PNG 512</a>
@@ -245,7 +240,7 @@
 <section id="components"><div class="container">
   <p class="eyebrow">Patterns</p>
   <h2 class="sec">Dapp components</h2>
-  <p class="sec-lead">The recurring building blocks across Demos dapps — frosted-glass cards, the violet CTA, status pills, stat cards, and monospace data panels.</p>
+  <p class="sec-lead">Reusable Demos patterns: opaque dark cards, purple buttons, labeled status pills and monospace data. These are adapted examples; all displayed network values are sample data.</p>
 
   <h3 class="sub">Buttons &amp; states</h3>
   <div class="dx-card demo"><div class="row-wrap">
@@ -261,16 +256,18 @@
 
   <h3 class="sub">Status pills &amp; badges</h3>
   <div class="dx-card demo"><div class="row-wrap">
-    <span class="dx-pill">Live</span>
-    <span class="dx-pill dx-pill--warning">Testnet</span>
-    <span class="dx-pill dx-pill--error">Down</span>
-    <span class="dx-pill dx-pill--neutral">Idle</span>
+    <span class="dx-pill"><span class="dx-pill__icon" aria-hidden="true">✓</span> Live</span>
+    <span class="dx-pill dx-pill--warning"><span class="dx-pill__icon" aria-hidden="true">!</span> Testnet</span>
+    <span class="dx-pill dx-pill--error"><span class="dx-pill__icon" aria-hidden="true">×</span> Down</span>
+    <span class="dx-pill dx-pill--info"><span class="dx-pill__icon" aria-hidden="true">i</span> Information</span>
+    <span class="dx-pill dx-pill--neutral"><span class="dx-pill__icon" aria-hidden="true">—</span> Idle</span>
     <span class="dx-badge">Transfer</span>
   </div>
-  <template class="src">&lt;span class="dx-pill"&gt;Live&lt;/span&gt;
-&lt;span class="dx-pill dx-pill--warning"&gt;Testnet&lt;/span&gt;
-&lt;span class="dx-pill dx-pill--error"&gt;Down&lt;/span&gt;
-&lt;span class="dx-pill dx-pill--neutral"&gt;Idle&lt;/span&gt;
+  <template class="src">&lt;span class="dx-pill"&gt;&lt;span class="dx-pill__icon" aria-hidden="true"&gt;✓&lt;/span&gt; Live&lt;/span&gt;
+&lt;span class="dx-pill dx-pill--warning"&gt;&lt;span class="dx-pill__icon" aria-hidden="true"&gt;!&lt;/span&gt; Testnet&lt;/span&gt;
+&lt;span class="dx-pill dx-pill--error"&gt;&lt;span class="dx-pill__icon" aria-hidden="true"&gt;×&lt;/span&gt; Down&lt;/span&gt;
+&lt;span class="dx-pill dx-pill--info"&gt;&lt;span class="dx-pill__icon" aria-hidden="true"&gt;i&lt;/span&gt; Information&lt;/span&gt;
+&lt;span class="dx-pill dx-pill--neutral"&gt;&lt;span class="dx-pill__icon" aria-hidden="true"&gt;—&lt;/span&gt; Idle&lt;/span&gt;
 &lt;span class="dx-badge"&gt;Transfer&lt;/span&gt;</template></div>
 
   <h3 class="sub">Stat cards</h3>
@@ -337,11 +334,12 @@ module.exports = {
 };</pre>
     </div>
   </div>
-  <p class="sec-lead" style="margin-top:var(--space-6)">Fonts load from Google Fonts CDN via <code class="dx-mono">fonts.css</code>. For production, self-host with next/font or @fontsource.</p>
+  <p class="sec-lead" style="margin-top:var(--space-6)">The two verified fonts load from Google Fonts via <code class="dx-mono">fonts.css</code>. Generic fallbacks work offline. See the guide for self-hosting and source details.</p>
 </div></section>
 
+</main>
 <footer class="footer">
-  <p><img class="dx-logo" src="./brand/assets/demos-logo.svg" alt="" style="height:1.2em;color:var(--color-text-secondary)"> Demos Network Design System</p>
+  <p><img class="dx-logo" src="./brand/assets/demos-logo-white.svg" alt="" style="height:1.2em;color:var(--color-text-secondary)"> Demos Network Design System</p>
   <p><a href="https://demos.network">demos.network</a> · <a href="https://scan.demos.network">Explorer</a> · <a href="https://faucet.demos.sh">Faucet</a> · <a href="./BRAND.md">Brand guide</a></p>
   <p style="color:var(--color-text-faint)">© 2026 Demos Network</p>
 </footer>
@@ -349,27 +347,16 @@ module.exports = {
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
+// Resolve swatches from canonical CSS so displayed values cannot drift.
+const tokens = getComputedStyle(document.documentElement);
 const COLORS = {
-  brand: [
-    ['Violet','#7c3aed','--brand-violet'], ['Violet strong','#a78bfa','--brand-violet-strong'],
-    ['Violet soft','#7c3aed1f','--brand-violet-soft'], ['Violet border','#7c3aed4d','--brand-violet-border'],
-  ],
-  bg: [
-    ['Letterbox','#06060a','--color-bg-letterbox'], ['Primary','#08080a','--color-bg-primary'],
-    ['Secondary','#0e0e11','--color-bg-secondary'], ['Card','#111113','--color-bg-card'],
-    ['Card hover','#16161a','--color-bg-card-hover'], ['Tinted','#13121f','--color-bg-tinted'],
-  ],
-  text: [
-    ['Primary','#f4f4f5','--color-text-primary'], ['Secondary','#b4b4bb','--color-text-secondary'],
-    ['Muted','#8a8a93','--color-text-muted'], ['Faint','#7c7c87','--color-text-faint'],
-    ['Inverse','#0a0a0a','--color-text-inverse'],
-  ],
-  status: [
-    ['Success','#a78bfa','--color-success'], ['Warning','#fbbf24','--color-warning'],
-    ['Error','#f87171','--color-error'], ['Info','#818cf8','--color-info'],
-  ],
+  brand: [['Violet','--brand-violet'], ['Violet hover','--brand-violet-hover'], ['Violet strong','--brand-violet-strong'], ['Violet soft','--brand-violet-soft']],
+  bg: [['Base','--color-bg-base'], ['Subtle','--color-bg-subtle'], ['Card','--color-bg-card'], ['Card hover','--color-bg-card-hover'], ['Letterbox','--color-bg-letterbox'], ['Tinted','--color-bg-tinted']],
+  text: [['Primary','--color-text-primary'], ['Secondary','--color-text-secondary'], ['Muted · decorative only','--color-text-muted'], ['Inverse','--color-text-inverse']],
+  status: [['Success','--color-success'], ['Warning','--color-warning'], ['Error','--color-error'], ['Info','--color-info']],
 };
-function swatch([name,hex,varname]){
+function swatch([name,varname]){
+  const hex = tokens.getPropertyValue(varname).trim();
   return `<div class="swatch" data-copy="${hex}" role="button" tabindex="0" aria-label="Copy ${name} ${hex}">
     <div class="swatch__chip" style="background:${hex}"></div>
     <div class="swatch__meta">
@@ -390,7 +377,7 @@ document.getElementById('scale-space').innerHTML = SPACE.map(([n,px])=>
    <span class="swatch__val">${px}px</span></div>`).join('');
 
 // radius demos
-const RADII = [['sm','4px'],['md','6px'],['button','10px'],['card','14px'],['2xl','16px'],['pill','9999px']];
+const RADII = [['sm','4px'],['chip','6px'],['button','10px'],['card','14px'],['2xl','16px'],['pill','9999px']];
 document.getElementById('radius-demos').innerHTML = RADII.map(([n,v])=>
   `<div style="text-align:center"><div class="radius-demo" style="border-radius:var(--radius-${n});margin:0 auto"></div>
    <div class="swatch__var" style="margin-top:6px">${n}</div></div>`).join('');
@@ -414,7 +401,14 @@ document.querySelectorAll('.demo').forEach(demo=>{
     btn.className='copy-code'; btn.textContent='Copy code'; demo.prepend(btn); }
   btn.addEventListener('click', async ()=>{
     const code = tpl.innerHTML.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&').trim();
-    try{ await navigator.clipboard.writeText(code); }catch(_){}
+    try { await navigator.clipboard.writeText(code); } catch (_) {
+      let fallback = demo.querySelector('.copy-fallback');
+      if (!fallback) { fallback = document.createElement('pre'); fallback.className = 'copy-fallback'; fallback.tabIndex = 0; demo.append(fallback); }
+      fallback.textContent = code;
+      fallback.focus();
+      showToast('Copy unavailable. Select the code shown below.');
+      return;
+    }
     btn.textContent='Copied ✓'; btn.classList.add('copied');
     showToast('Component code copied');
     setTimeout(()=>{ btn.textContent='Copy code'; btn.classList.remove('copied'); }, 1400);
@@ -422,9 +416,9 @@ document.querySelectorAll('.demo').forEach(demo=>{
 });
 
 // click-to-copy color swatches (keyboard-accessible: role=button + Enter/Space)
-function copySwatch(sw){
+async function copySwatch(sw){
   const val = sw.dataset.copy;
-  navigator.clipboard?.writeText(val);
+  try { await navigator.clipboard.writeText(val); } catch (_) { showToast('Copy unavailable. Select the visible value: ' + val); return; }
   showToast('Copied ' + val);
 }
 document.addEventListener('click', e=>{

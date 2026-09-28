@@ -9,3 +9,7 @@ ui-extracted/
 
 # os / editor
 .DS_Store
+
+# Python check caches
+__pycache__/
+*.pyc

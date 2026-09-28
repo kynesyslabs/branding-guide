@@ -1,292 +1,168 @@
-# Demos Network — Brand & Design Package
+# Demos Network brand and design package
 
-A reusable design system for building Demos Network dapps that look like they
-belong. Extracted from the live properties:
+This package aligns with the dark visual language of
+[demos.network](https://demos.network/) as captured on **2026-09-28**, under a
+strict **black/white/neutral-and-purple-only** policy. The live website has extra
+semantic colors; this package deliberately excludes them, including for statuses.
+It does not claim exact color parity. [PROVENANCE.md](PROVENANCE.md) separates
+observations from adaptations.
 
-| Site | Role | What it taught us |
-|------|------|-------------------|
-| `demos.network` | Marketing | Hero glow, display type, color-accented copy, dark editorial layout |
-| `kynesys.xyz` | Parent brand | Austere, near-black, wide-tracked uppercase, bento grid |
-| `faucet.demos.sh` | **Dapp** | Centered card, violet CTA, status pills, mono values, floating input |
-| `scan.demos.network` | **Dapp** | Top nav, stat cards, two-column data panels, tx badges — *full token system* |
+## Color
 
-The widest token surface lives in `scan.demos.network` (the raw scan dumped ~234
-declarations across its stylesheets). This package normalizes that into a curated,
-drop-in subset of ~110 design tokens — see `brand/tokens.css`.
+| Role | CSS token | Value |
+| --- | --- | --- |
+| Page | `--color-bg-base` / `--color-bg-primary` | `#0a0a0f` |
+| Subtle | `--color-bg-subtle` / `--color-bg-secondary` | `#111118` |
+| Card | `--color-bg-card` | `#16161f` |
+| Hover | `--color-bg-card-hover` / `--color-bg-hover` | `#1c1c28` |
+| Primary text | `--color-text-primary` | `#f0f0f5` |
+| Secondary text | `--color-text-secondary` | `#9ca3af` |
+| Decorative or disabled | `--color-text-muted` | `#6b7280` |
+| Action | `--brand-violet` | `#7c3aed` |
+| Action hover | `--brand-violet-hover` | `#8b5cf6` |
+| Readable purple emphasis | `--brand-violet-strong` | `#a78bfa` |
+| Border | `--color-border` | `#ffffff14` |
+| Border hover | `--color-border-hover` | `#ffffff29` |
+| Strong border | `--color-border-strong` | `#ffffff3d` |
 
----
+The approved near-black and gray tokens have subtle cool casts inherited from
+the site. These specific neutrals are permitted; they do not authorize additional
+chromatic accents. Purple and white alpha fills are allowed. No green, cyan,
+yellow, amber, red or blue is permitted in authored UI, states, charts or assets.
 
-## TL;DR — what Demos looks like
+Use secondary text for labels, captions, placeholders and other small readable
+content. Muted `#6b7280` fails 4.5:1 on these dark surfaces and must not carry
+essential small text. The compatibility token `--color-text-faint` now equals
+secondary. Use strong purple for small links; raw action purple is a fill, not a
+small-text color. Hairline borders are decorative separators, not sufficient
+standalone control indicators.
 
-- **Dark-first.** Near-black backgrounds (`#08080a`), never pure black for surfaces.
-- **Violet is the sole accent** (`#7c3aed`) — identity, primary buttons, success/"live", glows, focus rings, links, brand moments.
-- **Data / secondary emphasis are neutral** — the text tokens (muted/secondary), no coloured accent.
-- **Hairline borders** = white at ~9% alpha. That's the dark-UI separator.
-- **Monospace for all data** — hashes, addresses, amounts, code (Fira Code / SF Mono).
-- **Inter for UI, Plus Jakarta for marketing display.**
-- **Base-4 spacing**, radius 4→16px (cards 14, buttons 10, pills full).
-- **Elevation = hairline border + dark drop shadow**, not soft glow.
-- Generous vertical whitespace on marketing; dense, tabular data on dapps.
+## Typography
 
----
+| Role | Family | Weight |
+| --- | --- | --- |
+| All headings, body, navigation, buttons and inputs | Plus Jakarta Sans | Headings/body 400; UI emphasis 500–700 |
+| Code, hashes, addresses, technical labels and data values | Source Code Pro | 400–700 |
 
-## Files
+`--font-display` and `--font-sans` intentionally use the same family. Only generic
+fallbacks follow the authored family. The live CSS includes named system
+fallbacks, which this package intentionally omits. `brand/fonts.css` loads both
+families, including regular 400; it requires a network connection. See the
+[font loading notes](README.md#fonts) for the self-hosting limitation.
 
-```
-brand/
-  tokens.css         ← canonical :root CSS variables (import once)
-  tokens.json        ← same values for JS / design tools
-  tailwind.preset.js ← Tailwind preset wired to the variables
-  fonts.css          ← font loading + base stacks
-  components.css     ← dapp component primitives (.dx-* classes)
-  preview.html       ← live render of the whole kit
-  assets/
-    demos-logo.svg          ← currentColor (themeable — inherits text color)
-    demos-logo-white.svg    ← fixed #f4f4f5
-    demos-logo-gradient.svg ← violet gradient (hero moments)
-    favicon.svg             ← currentColor mark for <link rel=icon>
-    png/                    ← 16/32/64/128/256/512 (white + gradient), transparent
-    demos-brand-assets.zip  ← all of the above, bundled for download
-BRAND.md             ← this file
-ui-extracted/        ← raw extraction artifacts + screenshots (reference)
-```
+- Hero: `clamp(2.5rem, 7vw, 4.5rem)`; 40px minimum, up to 72px desktop,
+  line-height 1.05 and tracking -0.02em.
+- Section heading: `clamp(2.25rem, 5.5vw, 4.5rem)`, regular 400,
+  line-height 1.1, tracking -0.015em. Desktop specimens reach 60–72px.
+- Body: at least 16px, line-height 1.6. Technical captions may be 12–14px when
+  sufficiently contrasted; inputs remain 16px to avoid mobile zoom.
+- Code and data: tabular numerals and ligatures disabled.
 
-## Install
+## Layout, shape and depth
 
-**Plain CSS / any framework:**
-```html
-<link rel="stylesheet" href="/brand/tokens.css">
-<link rel="stylesheet" href="/brand/fonts.css">
-<link rel="stylesheet" href="/brand/components.css"> <!-- optional -->
-```
+Use a centered 1200px content container, 24px gutters and responsive one-column
+layouts on narrow screens. Marketing sections use 80–128px vertical space. These
+are package conventions based on observed utility sizes, not a reconstruction of
+every live layout. Data views can be denser without changing the type families.
 
-**Tailwind:**
-```js
-// tailwind.config.js
-module.exports = { presets: [require('./brand/tailwind.preset.js')], content: [...] };
-```
-```css
-/* app entry */
-@import './brand/tokens.css';
-@import './brand/fonts.css';
-```
-Then use `bg-bg-card`, `text-text-primary`, `border-border`, `bg-brand-violet`,
-`font-mono`, `rounded-card`, etc. For focus, use **`shadow-focus`** (the two-layer
-ring that meets WCAG SC 1.4.11 on any surface) rather than `ring-brand`, which is
-single-layer and only sets the ring color.
+Cards are opaque `#16161f`, have 24px padding and a 14px radius. Hover uses
+`#1c1c28`. Standard buttons have a 10px radius and at least 44px height. Marketing
+CTAs use `9999px` pill corners; chips use 6px. White-alpha borders and restrained
+dark shadows separate surfaces. Glass is optional via `.dx-card--glass`.
 
----
+`--gradient-brand` is a purple-only accent-to-strong linear gradient. `--glow-hero`
+and `--glow-ambient` are restrained purple radial adaptations, not measured live
+radial geometry. Use them behind hero content, not every card. Live multihue
+gradients are deliberately excluded. The retained logo gradient runs light
+purple to action purple and is a package treatment, not a verified live logo fill.
 
-## 1. Logo
+## Components
 
-The Demos mark: two interlocking comma forms (a stylized "ⓓ" / yin-yang motion).
-Source of truth: `demos-logo.svg` shipped in the faucet and indexer repos — copied
-into `brand/assets/`.
-
-| File | Fill | Use |
-|------|------|-----|
-| `demos-logo.svg` | `currentColor` | **Default.** Inherits surrounding text color — works on any bg, themes for free. |
-| `demos-logo-white.svg` | `#f4f4f5` | Fixed light, when you can't set `color`. |
-| `demos-logo-gradient.svg` | violet | Hero / splash moments only. |
-
-PNG raster sizes (transparent) in `assets/png/` — 16/32/64/128/256/512, white +
-gradient. Grab everything from `assets/demos-brand-assets.zip` (the preview's
-"Download assets" buttons link these). Favicon: `<link rel="icon" href="/brand/assets/favicon.svg">`.
-
-> The currentColor mark is **invisible on dark unless `color` is set** — that's
-> the point (themeable). On a dark surface set `color: var(--color-text-primary)`;
-> on light set a dark color; on a violet surface keep `--color-text-primary`. The
-> preview's logo card shows all four placements.
+Import `tokens.css`, `fonts.css` and `components.css` in that order.
 
 ```html
-<!-- in nav, scales with font-size, picks up text color -->
-<span class="dx-nav__brand"><img class="dx-logo" src="/brand/assets/demos-logo.svg" alt=""> Demos</span>
+<div class="dx-card">
+  <h2>Network overview</h2>
+  <p>Use readable neutral text for supporting information.</p>
+  <a class="dx-btn dx-btn--primary dx-btn--marketing" href="#details">Explore Demos</a>
+</div>
 ```
 
-- `.dx-logo` sets `height: 1.5em` so it scales with the surrounding type.
-- On a violet button/surface, keep `color: var(--color-text-primary)` so the
-  currentColor mark stays light.
-- Keep clear space ≥ the width of one comma around the mark. Don't recolor it
-  outside the brand accents. Don't stretch — viewBox preserves aspect.
+- `.dx-btn`: primary, secondary and ghost variants; add `--marketing` for a pill.
+  Primary uses white text on action purple. Hover uses the observed brighter
+  purple with dark text so small labels keep 4.5:1 contrast; this is a deliberate
+  accessibility adaptation. Visible focus uses strong purple with a dark offset.
+- `.dx-card`: opaque by default; `--hover` adds hover styling, `--glass` opts into
+  a translucent surface when supported. Validate text against the actual backdrop.
+- `.dx-stat`: readable secondary label and regular monospace value.
+- `.dx-row` / `.dx-mono`: wrapping label/value rows and technical text. Long
+  addresses wrap instead of overflowing mobile layouts.
+- `.dx-input`: visible label, readable placeholder, 16px text and purple focus.
+- `.dx-nav`: wrapping navigation, fixed light image on dark, visible active/focus states.
+- `.dx-badge`: 6px chip for a visible category such as “Transfer”.
 
----
+### Status semantics
 
-## 2. Color
+Keep semantic names to preserve integrations, but never encode a state solely
+through color. All statuses must have visible text. Distinct icons supplement
+labels and use `aria-hidden="true"` when redundant. Do not use colored emoji.
 
-### Brand accents
-| Token | Hex | Use |
-|-------|-----|-----|
-| `--brand-violet` | `#7c3aed` | Brand identity, **primary CTA**, glows, focus rings, links |
-| `--brand-violet-strong` | `#a78bfa` | Violet text on dark (passes contrast), CTA hover |
+| Class/token | Treatment | Example label/icon |
+| --- | --- | --- |
+| `.dx-pill`, `--success` / `--color-success` | Strong purple on soft purple | ✓ Live / Success |
+| `--warning` / `--color-warning` | Primary neutral on white alpha | ! Testnet / Warning |
+| `--error` / `--color-error` | Strong purple, double border | × Down / Error |
+| `--info` / `--color-info` | Secondary neutral | i Information |
+| `--neutral` | Secondary neutral | — Idle |
 
-Violet has `-soft` (12% fill) and `-border` (30%). It's the only hue in the palette —
-**data and secondary emphasis use the neutral text tokens** (`--color-text-secondary`
-/ `--color-text-muted`), not a coloured accent. Success / "live" render in violet via
-`--color-success`. Focus rings use `--focus-ring` (a two-layer ring built on
-`--color-focus-ring`, violet-strong @ 80%), which clears WCAG SC 1.4.11 on any surface.
-
-### Backgrounds (layer dark → darker)
-`--color-bg-letterbox` `#06060a` → `--color-bg-primary` `#08080a` (app) →
-`--color-bg-secondary` `#0e0e11` (raised/glass) → `--color-bg-card` `#111113`
-(cards) → `--color-bg-card-hover` `#16161a` → `--color-bg-hover` `#1d1d22`.
-
-`--color-bg-tinted` `#13121f` is the violet-tinted surface for highlighted regions.
-
-### Text
-`--color-text-primary` `#f4f4f5` (headings) · `--color-text-secondary` `#b4b4bb`
-(body) · `--color-text-muted` `#8a8a93` (labels) · `--color-text-faint` `#7c7c87`
-(placeholder/disabled, AA 4.5:1 on dark surfaces) · `--color-text-inverse` `#0a0a0a` (on light surfaces).
-
-### Borders
-White at low alpha: `subtle` 5% → `default` 9% → `strong` 15% → `hover` 16%.
-This is *the* signature of the dark UI — use borders, not heavy shadows, to separate.
-
-### Status
-`success` `#a78bfa` (violet) · `warning` `#fbbf24` · `error` `#f87171` · `info` `#818cf8`,
-each with a `-soft` background variant.
-
-> Contrast note: brand violet at full saturation is a bright accent on dark — fine
-> for large UI elements and ≥18px bold text. For small body text use the
-> `violet-strong` token or the neutral text tokens to hold WCAG AA (4.5:1).
-
----
-
-## 3. Typography
-
-| Stack | Token | Where |
-|-------|-------|-------|
-| Inter | `--font-sans` | All dapp/app UI. The default. |
-| Plus Jakarta Sans | `--font-display` | Marketing headings, hero |
-| Fira Code / SF Mono | `--font-mono` | Hashes, addresses, amounts, code |
-
-All open-source (Google Fonts). Weights: 400/500/600/700.
-
-**Rules:**
-- Body min `16px` (`--text-base`) — prevents iOS auto-zoom on inputs.
-- Hero/display: tight tracking (`-0.02em`) and line-height (`1.05–1.1`).
-- Marketing uses fluid clamps: `--text-fluid-hero`, `--text-fluid-h2`, etc.
-- kynesys-style eyebrows: uppercase + `--tracking-wide` (`0.12em`).
-- **Every blockchain value is monospace** with `font-variant-numeric: tabular-nums`
-  and ligatures off (`0`/`O`, `1`/`l` must stay distinct).
-
-Scale: caption 12 · label 14 · base 16 · lg 18 · xl 20 · 2xl 24 · 3xl 30 · hero 48.
-
----
-
-## 4. Spacing, radius, elevation
-
-- **Spacing:** base-4 grid. Tokens `--space-1..32` (4px → 128px). Use tokens, never magic numbers.
-- **Radius:** `sm` 4 (badges) · `md` 6 (chips) · `lg` 8 · `button` 10 · `xl` 12
-  (inputs) · `card` 14 · `2xl` 16 · `pill` 9999.
-- **Elevation:** hairline + drop, not glow.
-  - `--shadow-sm` `0 1px 2px #0006`
-  - `--shadow-md` `0 0 0 1px #ffffff0e, 0 2px 6px #0006`
-  - `--shadow-lg` `0 0 0 1px #ffffff0e, 0 8px 24px #00000080`
-- **Glass:** cards/nav are frosted — `--glass-card` / `--glass-panel` (translucent)
-  + `--blur-md` (12px) backdrop blur + `--glass-border` (brighter edge). Needs a
-  glow/texture behind it to read.
-
----
-
-## 5. Signature visual: the violet glow
-
-The marketing hero and dapp backgrounds use a soft violet radial behind content:
-```css
-.hero { background: var(--glow-ambient); }        /* page-level ambient */
-.feature { background: var(--glow-hero); }         /* component-level */
+```html
+<span class="dx-pill dx-pill--error">
+  <span class="dx-pill__icon" aria-hidden="true">×</span> Error: connection unavailable
+</span>
 ```
-Pair with `--vignette` to darken edges. Keep it subtle (alpha ≤ 0.12) — it reads
-as depth, not decoration. `.dx-glow` in `components.css` wires this up.
 
----
+The default, success, warning, error, info, soft and muted semantic names remain
+available. Applications should announce dynamic results with appropriate status
+or alert semantics, while keeping the visible label meaningful without color.
 
-## 6. Dapp component patterns
+## Logo and downloads
 
-These are the recurring building blocks across the faucet and explorer. Full CSS
-in `brand/components.css` (prefix `.dx-`). Each maps to a real on-site element.
+The existing two-comma mark geometry is retained. Its historical repository
+attribution was the faucet/indexer; this capture does not independently verify
+that geometry or establish a new logo source.
 
-### Card (`.dx-card`) — frosted glass
-The faucet's whole UI is one centered card; the explorer is a grid of them.
-Translucent `--glass-card` (~65%) + `backdrop-filter: blur(12px)` + brighter
-`--glass-border` + `radius-card` (14px) + `shadow-md` + 24px padding. The blur
-needs something behind it — place cards over the violet glow / a textured bg, or
-they look flat. Opaque `--color-bg-card` fallback kicks in via `@supports` where
-`backdrop-filter` is unsupported. For a fully opaque card, swap `background` to
-`var(--color-bg-card)` and drop the blur.
+| Asset | Behavior |
+| --- | --- |
+| `demos-logo.svg` | `currentColor`; inherits only when inline in the document |
+| `demos-logo-white.svg` | Fixed `#f0f0f5`; use as `<img>` on dark/purple |
+| `demos-logo-gradient.svg` | Two purple stops only |
+| `favicon.svg` | Fixed action purple, visible on light and dark tab surfaces |
 
-### Button (`.dx-btn`)
-- **Primary** (`--primary`): solid `brand-violet`, light text, radius 10.
-  This is the faucet "Request Tokens" CTA. Bold, high-contrast, the one strong color.
-- **Secondary** (`--secondary`): violet-tinted fill + violet border + violet text.
-- **Ghost** (`--ghost`): transparent + hairline border.
-- All: min-height 44px (touch target), focus ring = violet `--focus-ring`.
+A standalone SVG in `<img>` does **not** inherit the page's `color`. Use the
+fixed light image on dark backgrounds, the default black-rendering standalone
+mark on light, or inline SVG when color inheritance is required.
 
-### Status pill (`.dx-pill`)
-The "Live" / "Testnet" / "Connected" badge. Pill radius, soft-colored bg + matching
-border + glowing dot. Variants: success (default), warning, error, neutral.
+```html
+<img class="dx-logo" src="brand/assets/demos-logo-white.svg" alt="Demos">
+```
 
-### Stat card (`.dx-stat`)
-Explorer's top row: muted label, big bold tabular number, icon top-right. Numbers
-always `tabular-nums` so they don't jitter on update.
+Keep clear space around the mark and preserve its aspect ratio. PNGs are
+transparent, 16/32/64/128/256/512px, in white and purple gradient variants. They
+are rendered from the SVGs, never manually recolored. Download
+[the complete kit](brand/assets/demos-brand-assets.zip). Rebuild commands and
+renderer version are in [README.md](README.md#generate-and-check).
 
-### Data row + mono (`.dx-row`, `.dx-mono`)
-Block/tx lists and the faucet info panel. Label (muted) left, value right.
-Addresses/hashes/amounts in `--font-mono`; violet (`--accent`) for addresses &
-success values, neutral (`--data`) for secondary data. Row separated by `border-subtle`.
+## Accessibility and maintenance
 
-### Input (`.dx-input`)
-`bg-secondary` + hairline border + radius-xl, 16px text, faint placeholder.
-Focus → violet border + violet ring. Faucet uses a floating label above it.
+Use 4.5:1 for normal text and 3:1 for essential UI indicators. Tests check the
+supported opaque surfaces, primary and hover labels, and focus colors; this is
+not a blanket accessibility certification. Test custom compositions separately.
+Keep a visible keyboard focus and text labels, respect reduced motion, and verify
+mobile wrapping. Static examples show sample data only.
 
-### Top nav (`.dx-nav`)
-`bg-secondary` + bottom border + `blur-md` backdrop. Brand (logo + name) left,
-links (muted, hover→primary, `aria-current` for active), search + status pill right.
-
-### Tx-type badge (`.dx-badge`)
-Small violet-soft chip for transaction types ("Transfer") in lists.
-
----
-
-## 7. Layout conventions
-
-- **Dapps:** top nav (sticky, blurred) → page heading + search → stat-card row →
-  two-column data panels → footer (links + "© year Demos Network" + powered-by logo).
-  Max content width ~1200px, centered, 24px gutters.
-- **Marketing:** full-bleed dark sections, centered hero with glow, generous
-  vertical rhythm (80–128px between sections), bento/feature-card grids, color
-  accent words in headings.
-- **Mobile-first:** single column < 768px; stat cards stack; nav collapses;
-  keep 16px body, 44px targets, 8–10px between tappables.
-
----
-
-## 8. Accessibility & quality bar (2026)
-
-- WCAG 2.1 AA contrast (4.5:1 text, 3:1 UI). Verify accent-on-dark for small text.
-- Keyboard: visible focus = violet ring (`--focus-ring`) on every interactive element.
-- Semantic HTML (`<header><nav><main><footer>`), ARIA where needed.
-- Respect `prefers-reduced-motion` (tokens.css zeroes durations).
-- Motion 150–300ms, `--ease-standard`. Use for cause/effect, not decoration.
-- Loading: skeletons over spinners for content; spinner only for <3s actions.
-- Performance: <1MB initial load; self-host fonts (next/font or @fontsource) in prod.
-
----
-
-## 9. Do / Don't
-
-**Do**
-- Use semantic tokens (`--color-bg-card`), not raw hex, so theming works.
-- Reserve solid violet for the single primary action per view.
-- Keep violet for identity/focus/action/success; data stays neutral.
-- Mono + tabular-nums for every on-chain value.
-
-**Don't**
-- Pure black (`#000`) for surfaces (halation). Use `#08080a`/`#111113`.
-- Pure white text. Use `#f4f4f5`.
-- Heavy/soft drop shadows. The dark UI separates with hairline borders.
-- More than one solid accent button competing in the same view.
-
----
-
-*Regenerate extraction artifacts: `python scripts/crawl.py --url <...> && python scripts/analyze.py`.
-Screenshots and raw token dumps are in `ui-extracted/` for reference.*
+CSS is canonical. Run `scripts/sync_tokens.py` to regenerate the full JSON mirror.
+The Tailwind 3 preset replaces default colors and families; avoid reintroducing
+unapproved defaults through other presets, plugins or custom styles. Dark is the
+supported theme. The former optional light override was removed because it was
+not a complete or verified theme; consumers needing light mode must define and
+validate an approved neutral/purple theme explicitly.
