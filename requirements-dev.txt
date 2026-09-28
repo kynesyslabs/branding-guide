@@ -1,0 +1,2 @@
+# PNG inspection in the automated checks; the website has no build dependencies.
+Pillow==11.3.0

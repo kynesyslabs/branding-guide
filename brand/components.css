@@ -1,10 +1,15 @@
 /*
  * Demos Network — Component primitives (vanilla CSS, framework-agnostic)
- * Built on tokens.css. These are the recurring dapp patterns observed across
- * faucet.demos.sh and scan.demos.network. Copy what you need; rename freely.
+ * Built on tokens.css. Reusable dapp patterns adapted to the latest localhost branding values.
+ * Source and deliberate differences: ../PROVENANCE.md.
  *
  * Class prefix `dx-` = Demos eXperience.
  */
+
+*, *::before, *::after { box-sizing: border-box; }
+a { color: var(--brand-violet-strong); }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--color-focus-ring); outline-offset: 3px; }
+::selection { background: var(--brand-violet); color: var(--color-text-on-accent); }
 
 /* ── App shell ─────────────────────────────────────────────────── */
 .dx-app {
@@ -14,6 +19,12 @@
   font-family: var(--font-sans);
   font-size: var(--text-base);
   line-height: var(--leading-body);
+}
+
+/* Explicit theme surfaces; use on a section or an entire application. */
+[data-theme], [data-surface="ink"], .dx-theme-light, .dx-theme-dark {
+  background-color: var(--color-bg-base);
+  color: var(--color-text-secondary);
 }
 
 /* Signature ambient violet glow behind hero/page content */
@@ -30,24 +41,22 @@
 }
 .dx-glow > * { position: relative; z-index: 1; }
 
-/* ── Card / panel (frosted glass) ──────────────────────────────── */
+/* ── Card / panel (opaque by default) ──────────────────────────────── */
 .dx-card {
-  background: var(--glass-card);
-  border: 1px solid var(--glass-border);
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-card);
   padding: var(--space-card-padding);
   box-shadow: var(--shadow-md);
-  -webkit-backdrop-filter: blur(var(--blur-md));
-  backdrop-filter: blur(var(--blur-md));
 }
 .dx-card--hover:hover {
-  background: var(--glass-card-hover);
+  background: var(--color-bg-card-hover);
   border-color: var(--color-border-hover);
 }
-/* Opaque fallback for browsers without backdrop-filter (older Firefox). */
-@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .dx-card { background: var(--color-bg-card); }
-  .dx-card--hover:hover { background: var(--color-bg-card-hover); }
+/* Opt-in glass uses the same neutral surfaces. */
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .dx-card--glass { background: var(--glass-card); backdrop-filter: blur(var(--blur-md)); -webkit-backdrop-filter: blur(var(--blur-md)); }
+  .dx-card--glass.dx-card--hover:hover { background: var(--glass-card-hover); }
 }
 
 /* ── Logo ──────────────────────────────────────────────────────── */
@@ -55,7 +64,7 @@
   display: inline-block;
   height: 1.5em;        /* scales with surrounding font-size */
   width: auto;
-  color: var(--color-text-primary); /* currentColor svg inherits this */
+  color: var(--color-text-primary); /* applies to inline SVG only */
   vertical-align: middle;
 }
 
@@ -71,6 +80,7 @@
   font-family: var(--font-sans);
   font-size: var(--text-label);
   font-weight: var(--font-weight-semibold);
+  text-decoration: none;
   cursor: pointer;
   border: 1px solid transparent;
   transition: var(--transition);
@@ -78,14 +88,16 @@
 .dx-btn:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 .dx-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-/* Primary = solid violet, light text (the faucet "Request Tokens" CTA) */
+/* Primary = solid purple, with a pill modifier for marketing. */
 .dx-btn--primary {
   background: var(--brand-violet);
-  color: var(--color-text-primary);
+  color: var(--color-text-on-accent);
 }
-.dx-btn--primary:hover:not(:disabled) { background: var(--brand-violet-strong); color: var(--color-text-inverse); }
+/* Each theme supplies a contrasting hover label. */
+.dx-btn--primary:hover:not(:disabled) { background: var(--brand-violet-hover); color: var(--color-text-on-accent-hover); }
+.dx-btn--marketing { border-radius: var(--radius-pill); padding-inline: var(--space-8); font-size: var(--text-base); }
 
-/* Secondary = violet-tinted, light text */
+/* Secondary = violet-tinted, readable purple text */
 .dx-btn--secondary {
   background: var(--brand-violet-soft);
   border-color: var(--brand-violet-border);
@@ -96,7 +108,7 @@
 /* Ghost = transparent, hairline border */
 .dx-btn--ghost {
   background: transparent;
-  border-color: var(--color-border);
+  border-color: var(--color-border-control);
   color: var(--color-text-primary);
 }
 .dx-btn--ghost:hover:not(:disabled) { background: var(--color-bg-hover); }
@@ -114,16 +126,13 @@
   border: 1px solid var(--brand-violet-border);
   color: var(--color-success);
 }
-.dx-pill::before {
-  content: "";
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: currentColor;
-  box-shadow: 0 0 6px currentColor;  /* subtle live-dot glow */
-}
-.dx-pill--warning { background: var(--color-warning-soft); border-color: #f59e0b4d; color: var(--color-warning); }
-.dx-pill--error   { background: var(--color-error-soft);   border-color: #ef44444d; color: var(--color-error); }
-.dx-pill--neutral { background: #ffffff0f; border-color: var(--color-border); color: var(--color-text-secondary); }
+/* Status meaning comes from real text, never a colored dot or CSS content. */
+.dx-pill__icon { display: inline-block; min-width: 1em; text-align: center; }
+.dx-pill--success { background: var(--color-success-soft); color: var(--color-success); }
+.dx-pill--warning { background: var(--color-warning-soft); border-color: var(--color-border-strong); color: var(--color-warning); }
+.dx-pill--error { background: var(--color-error-soft); border-color: var(--brand-violet-strong); border-style: double; border-width: 3px; padding: 2px 10px; color: var(--color-error); }
+.dx-pill--info { background: var(--color-info-soft); border-color: var(--color-border); color: var(--color-info); }
+.dx-pill--neutral { background: var(--color-info-soft); border-color: var(--color-border); color: var(--color-text-secondary); }
 
 /* ── Stat card (explorer: label + big number + icon) ──────────── */
 .dx-stat {
@@ -133,11 +142,12 @@
 }
 .dx-stat__label {
   font-size: var(--text-label);
-  color: var(--color-text-muted);
+  color: var(--color-text-secondary);
 }
 .dx-stat__value {
   font-size: var(--text-3xl);
-  font-weight: var(--font-weight-bold);
+  font-family: var(--font-mono);
+  font-weight: var(--font-weight-normal);
   color: var(--color-text-primary);
   font-variant-numeric: tabular-nums;
 }
@@ -147,13 +157,16 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
   gap: var(--space-3);
   padding: var(--space-3) 0;
   border-bottom: 1px solid var(--color-border-subtle);
 }
-.dx-row__label { color: var(--color-text-muted); font-size: var(--text-label); }
+.dx-row__label { color: var(--color-text-secondary); font-size: var(--text-label); }
 /* Hashes, addresses, amounts always monospace */
 .dx-mono {
+  overflow-wrap: anywhere;
+  min-width: 0;
   font-family: var(--font-mono);
   font-size: var(--text-label);
   color: var(--color-text-primary);
@@ -167,14 +180,14 @@
   min-height: 44px;
   padding: var(--space-3) var(--space-4);
   background: var(--color-bg-secondary);
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--color-border-control);
   border-radius: var(--radius-xl);
   color: var(--color-text-primary);
   font-family: var(--font-sans);
   font-size: var(--text-base);     /* 16px — no iOS zoom */
   transition: var(--transition);
 }
-.dx-input::placeholder { color: var(--color-text-faint); }
+.dx-input::placeholder { color: var(--color-text-secondary); opacity: 1; }
 .dx-input:focus {
   outline: none;
   border-color: var(--brand-violet-border);
@@ -184,6 +197,7 @@
 /* ── Top nav bar (explorer) ────────────────────────────────────── */
 .dx-nav {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: var(--space-6);
   padding: var(--space-4) var(--space-6);
@@ -198,7 +212,7 @@
   color: var(--color-text-primary);
 }
 .dx-nav__link {
-  color: var(--color-text-muted);
+  color: var(--color-text-secondary);
   font-size: var(--text-label);
   text-decoration: none;
   transition: var(--transition);
@@ -216,7 +230,7 @@
   display: inline-flex;
   align-items: center;
   padding: 2px var(--space-2);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-chip);
   font-size: var(--text-caption);
   font-weight: var(--font-weight-medium);
   background: var(--color-success-soft);

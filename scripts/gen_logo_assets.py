@@ -1,52 +1,82 @@
 #!/usr/bin/env python3
+"""Render SVG sources with librsvg and build a deterministic, complete brand ZIP.
+
+Usage: python3 scripts/gen_logo_assets.py [--check]
+Requires rsvg-convert (librsvg); see README.md for the reference version.
 """
-Regenerate logo PNGs (16/32/64/128/256/512, white + gradient) + zip bundle
-from the SVGs in brand/assets/. Requires playwright chromium.
-Usage: python scripts/gen_logo_assets.py
-"""
-import asyncio, glob, os, zipfile
+import argparse
+import io
+import shutil
+import subprocess
+import zipfile
 from pathlib import Path
-from playwright.async_api import async_playwright
 
-ASSETS = Path("brand/assets")
-PNG = ASSETS / "png"
-SIZES = [16, 32, 64, 128, 256, 512]
-
-
-async def render(browser, svg, size, out):
-    html = (f'<!doctype html><meta charset=utf-8>'
-            f'<style>html,body{{margin:0;background:transparent}}'
-            f'svg{{display:block;width:{size}px;height:{size}px}}</style>{svg}')
-    pg = await browser.new_page(viewport={"width": size, "height": size})
-    await pg.set_content(html, wait_until="networkidle")
-    await pg.screenshot(path=str(out), omit_background=True)
-    await pg.close()
+ROOT = Path(__file__).resolve().parents[1]
+ASSETS = ROOT / 'brand/assets'
+SIZES = (16, 32, 64, 128, 256, 512)
+VARIANTS = ('white', 'gradient')
+ZIP_DATE = (2026, 9, 28, 0, 0, 0)
 
 
-async def main():
-    PNG.mkdir(parents=True, exist_ok=True)
-    white = (ASSETS / "demos-logo-white.svg").read_text()
-    grad = (ASSETS / "demos-logo-gradient.svg").read_text()
-    async with async_playwright() as p:
-        b = await p.chromium.launch()
-        for s in SIZES:
-            await render(b, white, s, PNG / f"demos-logo-white-{s}.png")
-            await render(b, grad, s, PNG / f"demos-logo-gradient-{s}.png")
-        await b.close()
-    # bundle: logos (svg+png) + the CSS package + tokens + tailwind preset.
-    # Fonts load from Google Fonts CDN (see fonts.css) — not bundled.
-    brand = ASSETS.parent  # brand/
-    files = (sorted(glob.glob(str(ASSETS / "*.svg")))
-             + sorted(glob.glob(str(PNG / "*.png")))
-             + sorted(glob.glob(str(brand / "*.css")))
-             + [str(brand / "tokens.json"), str(brand / "tailwind.preset.js")])
-    zpath = ASSETS / "demos-brand-assets.zip"
-    with zipfile.ZipFile(zpath, "w", zipfile.ZIP_DEFLATED) as z:
-        for f in files:
-            if os.path.exists(f):
-                z.write(f, os.path.relpath(f, brand.parent))  # paths like brand/...
-    print(f"[ok] {len(SIZES)*2} PNGs + CSS + {zpath.name} ({os.path.getsize(zpath)} b)")
+def render(variant, size):
+    return subprocess.run(
+        ['rsvg-convert', '--width', str(size), '--height', str(size),
+         str(ASSETS / f'demos-logo-{variant}.svg')],
+        check=True, capture_output=True,
+    ).stdout
 
 
-if __name__ == "__main__":
-    asyncio.run(main())
+def bundle_paths():
+    files = [ROOT / name for name in ('README.md', 'BRAND.md', 'PROVENANCE.md', 'index.html', 'requirements-dev.txt')]
+    for pattern in ('brand/*.css', 'brand/*.json', 'brand/*.js', 'brand/*.html',
+                    'brand/assets/*.svg', 'brand/assets/png/*.png', 'scripts/*.py', 'tests/*.py', 'tests/*.js'):
+        files.extend(ROOT.glob(pattern))
+    return sorted(files)
+
+
+def bundle_bytes():
+    stream = io.BytesIO()
+    # Stored entries avoid compression-version differences; fixed metadata avoids mtimes.
+    with zipfile.ZipFile(stream, 'w', compression=zipfile.ZIP_STORED) as archive:
+        for path in bundle_paths():
+            info = zipfile.ZipInfo(path.relative_to(ROOT).as_posix(), ZIP_DATE)
+            info.create_system = 3
+            info.external_attr = 0o100644 << 16
+            archive.writestr(info, path.read_bytes())
+    return stream.getvalue()
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--check', action='store_true', help='Compare with a fresh render; write nothing.')
+    args = parser.parse_args()
+    if not shutil.which('rsvg-convert'):
+        raise SystemExit('Missing rsvg-convert. Install librsvg as documented in README.md.')
+    png = ASSETS / 'png'
+    if not args.check:
+        png.mkdir(exist_ok=True)
+    mismatches = []
+    for variant in VARIANTS:
+        for size in SIZES:
+            path = png / f'demos-logo-{variant}-{size}.png'
+            expected = render(variant, size)
+            if args.check:
+                if not path.exists() or path.read_bytes() != expected:
+                    mismatches.append(str(path.relative_to(ROOT)))
+            else:
+                path.write_bytes(expected)
+    archive = ASSETS / 'demos-brand-assets.zip'
+    expected = bundle_bytes()
+    if args.check:
+        if not archive.exists() or archive.read_bytes() != expected:
+            mismatches.append(str(archive.relative_to(ROOT)))
+        if mismatches:
+            raise SystemExit('Stale generated artifacts: ' + ', '.join(mismatches))
+        print('12 PNGs match SVG renders; ZIP contents and metadata are current')
+    else:
+        archive.write_bytes(expected)
+        print(f'Rebuilt 12 PNGs and {archive.relative_to(ROOT)} ({len(expected):,} bytes)')
+
+
+if __name__ == '__main__':
+    main()

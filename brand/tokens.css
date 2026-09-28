@@ -1,127 +1,49 @@
-/*
- * Demos Network — Brand Design Tokens
- * Extracted from demos.network, scan.demos.network, faucet.demos.sh, kynesys.xyz
- * Dark-first. These :root variables are the canonical source of truth.
- *
- * Usage: import this file once at app root, then reference var(--color-*) everywhere.
- * Tailwind users: see tailwind.preset.js (maps these to theme()).
+/* Demos Network — light default with reusable dark scopes.
+ * Primary: http://localhost:3005/ (owner-designated latest, 2026-09-28).
+ * Secondary: https://demos.network/. See PROVENANCE.md for superseded history.
+ * Strict neutral-and-purple palette, including statuses. CSS is canonical.
+ * Run python3 scripts/sync_tokens.py after editing any token block.
  */
-
 :root {
-  color-scheme: dark;
-
-  /* ── Brand palette ─────────────────────────────────────────────── */
-  /* Sole accent: violet — identity, actions/CTAs, glows, focus, links */
-  --brand-violet:          #7c3aed;
-  --brand-violet-strong:   #a78bfa; /* lighter, for text-on-dark        */
-  --brand-violet-soft:     #7c3aed1f; /* 12% — subtle fills             */
-  --brand-violet-border:   #7c3aed4d; /* 30% — borders                  */
-  /* Note: focus rings use --color-focus-ring (#a78bfacc), not raw violet —
-     a 32%-alpha violet on near-black gives ~1.3:1 and fails WCAG SC 1.4.11. */
-  /* Data / secondary emphasis use the neutral text tokens (muted/secondary),
-     not a coloured accent — violet is the only hue in the palette. */
-
-  /* ── Backgrounds (near-black, layered) ─────────────────────────── */
-  --color-bg-letterbox:    #06060a; /* deepest, page chrome / letterbox */
-  --color-bg-primary:      #08080a; /* app background                   */
-  --color-bg-base:         #0a0a0a; /* alt base                         */
-  --color-bg-secondary:    #0e0e11; /* raised surface / glass           */
-  --color-bg-card:         #111113; /* cards, panels                    */
-  --color-bg-card-hover:   #16161a; /* card hover                       */
-  --color-bg-hover:        #1d1d22; /* interactive hover                */
-  --color-bg-tinted:       #13121f; /* violet-tinted surface            */
-
-  /* Frosted-glass surfaces (translucent + backdrop-blur). Sit these over
-     the violet glow / textured bg so the blur has something to refract. */
-  --glass-card:            #14141aa6; /* ~65% — cards                     */
-  --glass-card-hover:      #1a1a22bf; /* ~75%                             */
-  --glass-panel:           #0e0e11cc; /* ~80% — nav / sticky panels       */
-  --glass-border:          #ffffff1f; /* slightly brighter edge for glass */
-
-  /* ── Text ──────────────────────────────────────────────────────── */
-  --color-text-primary:    #f4f4f5; /* headings, key text               */
-  --color-text-secondary:  #b4b4bb; /* body                             */
-  --color-text-muted:      #8a8a93; /* labels, captions                 */
-  --color-text-faint:      #7c7c87; /* placeholders, disabled — AA 4.5:1 on bg-secondary/card/primary */
-  --color-text-inverse:    #0a0a0a; /* text on light surfaces            */
-
-  /* ── Borders (white at low alpha — the dark-UI hairline) ────────── */
-  --color-border-subtle:   #ffffff0e; /* 5%                             */
-  --color-border:          #ffffff17; /* 9% — default                   */
-  --color-border-strong:   #ffffff26; /* 15%                            */
-  --color-border-hover:    #ffffff29; /* 16%                            */
-
-  /* ── Semantic status ───────────────────────────────────────────── */
-  /* Success / "live" render in violet — the sole accent. */
-  --color-success:         #a78bfa;
-  --color-success-soft:    #7c3aed1f;
-  --color-success-muted:   #a78bfa21;
-  --color-warning:         #fbbf24;
-  --color-warning-soft:    #f59e0b1f;
-  --color-warning-muted:   #fbbf2421;
-  --color-error:           #f87171;
-  --color-error-soft:      #ef44441f;
-  --color-error-muted:     #f8717121;
-  --color-info:            #818cf8;
-  --color-info-soft:       #3b82f61f;
-  --color-info-muted:      #818cf824;
-
-  /* ── Focus ─────────────────────────────────────────────────────── */
-  /* Two-layer ring: 1px dark offset separates the ring from the control,
-     then a 3px violet glow. The violet alone (~1.3:1 on near-black) fails
-     WCAG 2.2 SC 1.4.11 (3:1 for focus indicators); the dark offset + a
-     higher-opacity violet make it visible on any surface. */
-  --color-focus-ring:      #a78bfacc; /* violet-strong @ 80% — 3:1+ on dark */
-  --focus-ring:            0 0 0 1px var(--color-bg-primary), 0 0 0 3px var(--color-focus-ring);
-
-  /* ── Gradients (signature violet radial glow) ──────────────────── */
-  --glow-hero:    radial-gradient(60% 50% at 50% 35%, #7c3aed1a 0%, #7c3aed00 65%);
-  --glow-ambient: radial-gradient(520px at 50% 30%, #7c3aed1a, #7c3aed08 35%, #00000000 60%);
-  --vignette:     radial-gradient(75% 55%, #00000000 0%, #000000b3 100%);
-
-  /* ── Typography ────────────────────────────────────────────────── */
-  /* UI / app text (dapps): Inter. Display (marketing): Plus Jakarta.  */
-  --font-sans:    "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-display: "Plus Jakarta Sans", "Inter", system-ui, -apple-system, sans-serif;
-  --font-mono:    "SF Mono", "Fira Code", "Source Code Pro", "Fira Mono", Menlo, Monaco, monospace;
-
-  --font-weight-normal:   400;
-  --font-weight-medium:   500;
+  /* Only the two verified families, followed by generic fallbacks. */
+  --font-sans: "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-display: "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-mono: "Source Code Pro", ui-monospace, monospace;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
   --font-weight-semibold: 600;
-  --font-weight-bold:     700;
+  --font-weight-bold: 700;
 
-  /* Type scale (rem). Fluid clamps for hero/headings on marketing.    */
-  --text-caption:   0.75rem;   /* 12px */
-  --text-label:     0.875rem;  /* 14px */
-  --text-base:      1rem;      /* 16px — min body, prevents iOS zoom    */
-  --text-lg:        1.125rem;  /* 18px */
-  --text-xl:        1.25rem;   /* 20px */
-  --text-2xl:       1.5rem;    /* 24px */
-  --text-3xl:       1.875rem;  /* 30px */
-  --text-hero:      3rem;      /* 48px */
-
-  --leading-tight:  1.1;
-  --leading-snug:   1.35;
+  --text-caption: 0.75rem;
+  --text-label: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-hero: 3rem;
+  --text-fluid-hero: 3rem;
+  --text-fluid-h2: 2.25rem;
+  --text-fluid-h3: clamp(1.5rem, 3vw, 2rem);
+  --text-fluid-body: clamp(1rem, 1.4vw, 1.125rem);
+  --leading-hero: 1.04;
+  --leading-tight: 1.04;
+  --leading-snug: 1.375;
   --leading-normal: 1.5;
-  --leading-body:   1.6;
+  --leading-body: 1.6;
+  --tracking-tight: -0.035em;
+  --tracking-hero: -0.035em;
+  --tracking-section: -0.035em;
+  --tracking-wide: 0.025em;
+  --tracking-eyebrow: 0.14em;
 
-  --tracking-tight: -0.02em;   /* hero/display */
-  --tracking-wide:  0.12em;    /* uppercase eyebrows / kynesys editorial */
-
-  /* Fluid (marketing pages) */
-  --text-fluid-hero: clamp(1.375rem, 0.9rem + 2.4vw, 2.5rem);
-  --text-fluid-h2:   clamp(2rem, 1.2rem + 4vw, 4.25rem);
-  --text-fluid-h3:   clamp(1.25rem, 1rem + 1.4vw, 2rem);
-  --text-fluid-body: clamp(0.95rem, 0.85rem + 0.55vw, 1.3rem);
-
-  /* ── Spacing (base-4 grid) ─────────────────────────────────────── */
-  --space-1:  4px;
-  --space-2:  8px;
-  --space-3:  12px;
-  --space-4:  16px;
-  --space-5:  20px;
-  --space-6:  24px;
-  --space-8:  32px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
   --space-10: 40px;
   --space-12: 48px;
   --space-16: 64px;
@@ -129,63 +51,158 @@
   --space-24: 96px;
   --space-32: 128px;
   --space-card-padding: 24px;
+  --layout-content: 1200px;
+  --layout-gutter: 24px;
+  --layout-section: 96px;
 
-  /* ── Radius ────────────────────────────────────────────────────── */
-  --radius-sm:     4px;   /* badges               */
-  --radius-md:     6px;   /* chips, small inputs  */
-  --radius-lg:     8px;   /* buttons (compact)    */
-  --radius-button: 10px;  /* primary buttons      */
-  --radius-xl:     12px;  /* inputs, small cards  */
-  --radius-card:   14px;  /* cards, panels        */
-  --radius-2xl:    16px;  /* large surfaces       */
-  --radius-pill:   9999px;/* pills, status, avatar*/
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-chip: 6px;
+  --radius-lg: 8px;
+  --radius-button: 10px;
+  --radius-xl: 12px;
+  --radius-card: 20px;
+  --radius-2xl: 16px;
+  --radius-pill: 9999px;
 
-  /* ── Elevation (hairline border + dark drop — the dark-UI shadow) ─ */
-  --shadow-sm: 0 1px 2px #0006;
-  --shadow-md: 0 0 0 1px #ffffff0e, 0 2px 6px #0006;
-  --shadow-lg: 0 0 0 1px #ffffff0e, 0 8px 24px #00000080;
-
-  /* ── Blur (glass surfaces) ─────────────────────────────────────── */
-  --blur-sm:  8px;
-  --blur-md:  12px;
+  --blur-sm: 8px;
+  --blur-md: 12px;
   --blur-2xl: 40px;
-
-  /* ── Motion (keep brief; respect reduced-motion) ───────────────── */
   --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
   --duration-fast: 150ms;
   --duration-base: 250ms;
-  --transition:    all var(--duration-base) var(--ease-standard);
+  --transition: all var(--duration-base) var(--ease-standard);
 }
 
-/* Optional light mode. Demos is dark-first; this is a sane fallback,
-   not a primary target. Override only what changes. */
-@media (prefers-color-scheme: light) {
-  :root.supports-light {
-    color-scheme: light;
-    --color-bg-letterbox:   #f4f4f5;
-    --color-bg-primary:     #ffffff;
-    --color-bg-base:        #ffffff;
-    --color-bg-secondary:   #f8f9fa;
-    --color-bg-card:        #ffffff;
-    --color-bg-card-hover:  #f4f4f5;
-    --color-text-primary:   #111113;
-    --color-text-secondary: #3f3f46;
-    --color-text-muted:     #71717a;
-    --color-text-faint:     #a1a1aa;
-    --color-text-inverse:   #ffffff;
-    --color-border-subtle:  #0000000a;
-    --color-border:         #00000014;
-    --color-border-strong:  #00000026;
-    --color-border-hover:   #00000029;
-    --shadow-md: 0 0 0 1px #0000000f, 0 2px 6px #0000001a;
-    --shadow-lg: 0 0 0 1px #0000000f, 0 8px 24px #00000026;
-  }
+/* Light theme: complete overrides also support nested theme boundaries. */
+:root, [data-theme="light"], .dx-theme-light {
+  color-scheme: light;
+  --brand-violet: #7c3aed;
+  --brand-violet-hover: #6d28d9;
+  --brand-violet-strong: #6d28d9;
+  --brand-violet-highlight: #6d28d9;
+  --brand-violet-soft: #f1ecfd;
+  --brand-violet-soft-hover: #ede9fe;
+  --brand-violet-border: #7c3aed33;
+  --color-bg-letterbox: #111118;
+  --color-bg-primary: #f8f8f6;
+  --color-bg-base: #f8f8f6;
+  --color-bg-secondary: #f1f1ee;
+  --color-bg-subtle: #f1f1ee;
+  --color-bg-card: #fefefc;
+  --color-bg-card-hover: #f4f4f1;
+  --color-bg-hover: #f4f4f1;
+  --color-bg-tinted: #f7f4fe;
+  --glass-card: #fefefcf2;
+  --glass-card-hover: #f4f4f1f2;
+  --glass-panel: #f8f8f6d9;
+  --glass-border: #e4e4df;
+  --color-text-primary: #111118;
+  --color-text-secondary: #676770;
+  --color-text-muted: #7c7c85;
+  --color-text-faint: #676770;
+  --color-text-inverse: #f8f8f6;
+  --color-text-on-accent: #ffffff;
+  --color-text-on-accent-hover: #ffffff;
+  --color-border-subtle: #e4e4df;
+  --color-border: #e4e4df;
+  --color-border-strong: #bdbdb6;
+  --color-border-hover: #d2d2cc;
+  --color-border-control: #7c7c85;
+  --color-success: #6d28d9;
+  --color-success-soft: #f1ecfd;
+  --color-success-muted: #ede9fe;
+  --color-warning: #111118;
+  --color-warning-soft: #00000008;
+  --color-warning-muted: #0000000f;
+  --color-error: #6d28d9;
+  --color-error-soft: #f1ecfd;
+  --color-error-muted: #ede9fe;
+  --color-info: #676770;
+  --color-info-soft: #00000008;
+  --color-info-muted: #00000008;
+  --color-focus-ring: #6d28d9;
+  --focus-ring: 0 0 0 2px var(--color-bg-primary), 0 0 0 4px var(--color-focus-ring);
+  --gradient-brand: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+  --glow-hero: radial-gradient(60% 50% at 30% 35%, #7c3aed0f 0%, #7c3aed00 65%);
+  --glow-ambient: radial-gradient(520px at 30% 30%, #7c3aed0f, #7c3aed08 35%, #00000000 60%);
+  --vignette: radial-gradient(75% 55%, #00000000 0%, #0000000f 100%);
+  --shadow-sm: 0 1px 2px #0000000a;
+  --shadow-md: 0 2px 6px #0000000f;
+  --shadow-lg: 0 8px 24px #00000014;
 }
 
-@media (prefers-reduced-motion: reduce) {
+/* Dark theme: complete overrides also support nested theme boundaries. */
+[data-theme="dark"], [data-surface="ink"], .dx-theme-dark {
+  color-scheme: dark;
+  --brand-violet: #7c3aed;
+  --brand-violet-hover: #8b5cf6;
+  --brand-violet-strong: #a78bfa;
+  --brand-violet-highlight: #c4b5fd;
+  --brand-violet-soft: #7c3aed24;
+  --brand-violet-soft-hover: #7c3aed33;
+  --brand-violet-border: #7c3aed4d;
+  --color-bg-letterbox: #0b0b10;
+  --color-bg-primary: #111118;
+  --color-bg-base: #111118;
+  --color-bg-secondary: #16161e;
+  --color-bg-subtle: #16161e;
+  --color-bg-card: #1c1c24;
+  --color-bg-card-hover: #23232c;
+  --color-bg-hover: #23232c;
+  --color-bg-tinted: #1b1726;
+  --glass-card: #1c1c24f2;
+  --glass-card-hover: #23232cf2;
+  --glass-panel: #111118d9;
+  --glass-border: #2a2a33;
+  --color-text-primary: #f8f8f6;
+  --color-text-secondary: #a1a1aa;
+  --color-text-muted: #71717a;
+  --color-text-faint: #a1a1aa;
+  --color-text-inverse: #111118;
+  --color-text-on-accent: #ffffff;
+  --color-text-on-accent-hover: #000000;
+  --color-border-subtle: #2a2a33;
+  --color-border: #2a2a33;
+  --color-border-strong: #52525b;
+  --color-border-hover: #3a3a45;
+  --color-border-control: #71717a;
+  --color-success: #a78bfa;
+  --color-success-soft: #7c3aed24;
+  --color-success-muted: #a78bfa21;
+  --color-warning: #f8f8f6;
+  --color-warning-soft: #ffffff0f;
+  --color-warning-muted: #ffffff14;
+  --color-error: #a78bfa;
+  --color-error-soft: #7c3aed24;
+  --color-error-muted: #a78bfa21;
+  --color-info: #a1a1aa;
+  --color-info-soft: #ffffff0f;
+  --color-info-muted: #ffffff14;
+  --color-focus-ring: #a78bfa;
+  --focus-ring: 0 0 0 2px var(--color-bg-primary), 0 0 0 4px var(--color-focus-ring);
+  --gradient-brand: linear-gradient(135deg, #7c3aed 0%, #a78bfa 100%);
+  --glow-hero: radial-gradient(60% 50% at 30% 35%, #7c3aed1a 0%, #7c3aed00 65%);
+  --glow-ambient: radial-gradient(520px at 30% 30%, #7c3aed1a, #7c3aed08 35%, #00000000 60%);
+  --vignette: radial-gradient(75% 55%, #00000000 0%, #000000b3 100%);
+  --shadow-sm: 0 1px 2px #0006;
+  --shadow-md: 0 2px 6px #0006;
+  --shadow-lg: 0 8px 24px #00000080;
+}
+
+/* Source breakpoints: md 810px, lg 1200px; compatible fluid names are retained. */
+@media (min-width: 810px) {
   :root {
-    --duration-fast: 0ms;
-    --duration-base: 0ms;
+    --text-fluid-hero: 4.75rem;
+    --text-fluid-h2: 3.5rem;
+    --layout-gutter: 40px;
+    --layout-section: 144px;
   }
+}
+@media (min-width: 1200px) {
+  :root { --text-fluid-hero: 5.75rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  :root { --duration-fast: 0ms; --duration-base: 0ms; }
   html { scroll-behavior: auto; }
 }
