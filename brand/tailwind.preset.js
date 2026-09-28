@@ -8,8 +8,11 @@
  * Use bg-bg-card, text-text-primary, border-border and focus:shadow-focus.
  */
 module.exports = {
+  // Legacy whole-page variant only. Mixed/nested scopes must use token utilities
+  // without dark: prefixes; see BRAND.md for scope/reset semantics.
   darkMode: ['class', '[data-theme="dark"]'],
   theme: {
+    screens: { sm: '640px', md: '810px', lg: '1200px', xl: '1440px', '2xl': '1536px' },
     colors: {
       transparent: 'transparent',
       current: 'currentColor',
@@ -22,6 +25,7 @@ module.exports = {
         'violet-soft-hover': 'var(--brand-violet-soft-hover)',
         'violet-border': 'var(--brand-violet-border)',
         'violet-strong': 'var(--brand-violet-strong)',
+        'violet-highlight': 'var(--brand-violet-highlight)',
       },
       bg: {
         letterbox: 'var(--color-bg-letterbox)',
@@ -47,11 +51,13 @@ module.exports = {
         faint: 'var(--color-text-faint)',
         inverse: 'var(--color-text-inverse)',
         'on-accent': 'var(--color-text-on-accent)',
+        'on-accent-hover': 'var(--color-text-on-accent-hover)',
       },
       border: {
         subtle: 'var(--color-border-subtle)',
         DEFAULT: 'var(--color-border)',
         strong: 'var(--color-border-strong)',
+        control: 'var(--color-border-control)',
         hover: 'var(--color-border-hover)',
       },
       success: {
@@ -116,7 +122,7 @@ module.exports = {
       },
       boxShadow: {
         sm: 'var(--shadow-sm)', md: 'var(--shadow-md)', lg: 'var(--shadow-lg)',
-        // Strong purple focus ring with a dark offset; validate on your surface.
+        // Strong purple focus ring with a theme surface offset; validate on your surface.
         focus: 'var(--focus-ring)',
       },
       backgroundImage: {

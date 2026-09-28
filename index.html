@@ -19,7 +19,7 @@
   }
 
   /* layout */
-  .container{ max-width:var(--layout-content); margin:0 auto; padding:0 var(--space-6); position:relative; z-index:1; }
+  .container{ max-width:var(--layout-content); margin:0 auto; padding:0 var(--layout-gutter); position:relative; z-index:1; }
   section{ padding:var(--layout-section) 0; border-top:1px solid var(--color-border-subtle); position:relative; z-index:1; }
   section:first-of-type{ border-top:none; }
   .eyebrow{ text-transform:uppercase; letter-spacing:var(--tracking-eyebrow); font-size:var(--text-caption);
@@ -36,13 +36,13 @@
   @media (max-width:760px){ html{ scroll-padding-top:176px; } .site-nav__links{ flex-wrap:wrap; margin-left:0; gap:var(--space-3); } }
 
   /* hero */
-  .hero{ text-align:center; padding:var(--space-24) var(--layout-gutter) var(--space-20); }
+  .hero{ text-align:left; padding:var(--layout-section) 0; }
   .hero__mark{ height:80px; margin-bottom:var(--space-6); color:var(--color-text-primary); }
   .hero h1{ font-family:var(--font-display); font-size:var(--text-fluid-hero); line-height:var(--leading-hero);
-    letter-spacing:var(--tracking-hero); color:var(--color-text-primary); margin:0 auto var(--space-4); max-width:18ch; }
-  .hero h1 .v{ color:var(--brand-violet-strong); } .hero h1 .g{ color:var(--brand-violet); } .hero h1 .c{ color:var(--brand-violet-strong); }
-  .hero p{ color:var(--color-text-secondary); font-size:var(--text-fluid-body); max-width:54ch; margin:0 auto var(--space-8); }
-  .hero__cta{ display:flex; gap:var(--space-3); justify-content:center; flex-wrap:wrap; }
+    letter-spacing:var(--tracking-hero); color:var(--color-text-primary); margin:0 0 var(--space-4); max-width:18ch; }
+  .hero h1 .v{ color:var(--brand-violet-highlight); font-style:normal; } .hero h1 .g{ color:var(--brand-violet); } .hero h1 .c{ color:var(--brand-violet-strong); }
+  .hero p{ color:var(--color-text-secondary); font-size:var(--text-fluid-body); max-width:54ch; margin:0 0 var(--space-8); }
+  .hero__cta{ display:flex; gap:var(--space-3); justify-content:flex-start; flex-wrap:wrap; }
 
   /* grids */
   .grid > *, .specimen__text { min-width:0; overflow-wrap:anywhere; }
@@ -79,12 +79,12 @@
   .logo-cell{ display:flex; align-items:center; justify-content:center; height:120px;
     border-radius:var(--radius-md); border:1px solid var(--color-border); }
   .logo-cell img{ height:56px; }
-  .logo-cell--light{ background:var(--color-text-primary); } .logo-cell--violet{ background:var(--brand-violet); }
+  .logo-cell--light{ background:var(--color-bg-base); } .logo-cell--violet{ background:var(--brand-violet); }
   .logo-cell--card{ background:var(--color-bg-card); } .logo-cell--grad{ background:var(--color-bg-secondary); }
   .sizes{ display:flex; gap:var(--space-6); align-items:flex-end; flex-wrap:wrap; }
 
   /* code block */
-  pre{ background:var(--color-bg-letterbox); border:1px solid var(--color-border); border-radius:var(--radius-xl);
+  pre{ background:var(--color-bg-secondary); border:1px solid var(--color-border); border-radius:var(--radius-xl);
     padding:var(--space-4); overflow:auto; color:var(--color-text-secondary); font-family:var(--font-mono);
     font-size:var(--text-label); line-height:1.6; }
   pre .c{ color:var(--color-text-secondary); } pre .k{ color:var(--brand-violet-strong); }
@@ -119,7 +119,7 @@
 </head>
 <body class="dx-app">
 
-<div class="site-nav">
+<div class="site-nav" data-theme="dark">
   <nav class="dx-nav">
     <span class="dx-nav__brand"><img class="dx-logo" src="./brand/assets/demos-logo-white.svg" alt=""> Demos <span style="color:var(--color-text-secondary);font-weight:var(--font-weight-normal)">Design System</span></span>
     <div class="site-nav__links">
@@ -133,47 +133,55 @@
   </nav>
 </div>
 
-<header class="container hero dx-glow">
+<header class="hero dx-glow" data-theme="dark"><div class="container">
   <img class="hero__mark" src="./brand/assets/demos-logo-gradient.svg" alt="Demos">
   <h1>One network.<br><span class="v">One design language.</span></h1>
-  <p>Dark surfaces. Clear typography. One purple accent. A reusable design system aligned with demos.network, under a strict neutral-and-purple palette.</p>
+  <p>Light foundations. Dark sections. Bold typography. One purple accent. A reusable design system aligned with the owner-designated latest website.</p>
   <div class="hero__cta">
     <a class="dx-btn dx-btn--primary dx-btn--marketing" href="./brand/assets/demos-brand-assets.zip" download>↓ Download brand kit</a>
     <a class="dx-btn dx-btn--secondary" href="#components">View components</a>
     <a class="dx-btn dx-btn--ghost" href="./BRAND.md">Read the guide</a>
   </div>
-</header>
+</div></header>
 
 <main>
 <!-- COLOR -->
 <section id="color"><div class="container">
   <p class="eyebrow">Foundations</p>
   <h2 class="sec">Color</h2>
-  <p class="sec-lead">Dark-first. One accent: violet — identity and action alike. Data and secondary emphasis use the neutral text tokens. Click any swatch to copy its hex. Status names remain compatible; meaning comes from visible labels and icons, never color alone.</p>
+  <p class="sec-lead">Light by default, with reusable dark scopes. One accent: violet — identity and action alike. Data and secondary emphasis use the neutral text tokens. Click any swatch to copy its hex. Status names remain compatible; meaning comes from visible labels and icons, never color alone.</p>
 
-  <p class="sec-lead">Source: <a href="https://demos.network/">demos.network</a>, captured 2026-09-28. Extra semantic colors on the site are deliberately excluded; this is not exact color parity. <a href="./PROVENANCE.md">Source details and palette policy</a>.</p>
+  <p class="sec-lead">Source priority: <a href="http://localhost:3005/">local latest</a> &gt; <a href="https://demos.network/">deployed secondary</a>, captured 2026-09-28. Extra semantic colors are deliberately excluded; this is not exact color parity. <a href="./PROVENANCE.md">Source details and palette policy</a>.</p>
   <h3 class="sub">Brand accents</h3>
   <div class="grid grid-4" id="sw-brand"></div>
   <h3 class="sub">Backgrounds</h3>
   <div class="grid grid-4" id="sw-bg"></div>
   <h3 class="sub">Text</h3>
   <div class="grid grid-4" id="sw-text"></div>
-  <p class="sec-lead">Muted #6b7280 is retained for decorative or disabled elements only. Small labels and captions use secondary #9ca3af.</p>
+  <p class="sec-lead">Muted tokens are for decorative or disabled elements only. Small labels and captions use the theme’s secondary text.</p>
   <h3 class="sub">Status</h3>
   <div class="grid grid-4" id="sw-status"></div>
+  <div class="dx-card" data-theme="dark" style="margin-top:var(--space-8)">
+    <h3 class="sub" style="margin-top:0">Dark scoped palette</h3>
+    <p>Use <code>data-theme="dark"</code> on any section. Nested light scopes reset the full palette.</p>
+    <div class="grid grid-4" id="sw-dark-brand"></div>
+    <h3 class="sub">Dark surfaces</h3><div class="grid grid-4" id="sw-dark-bg"></div>
+    <h3 class="sub">Dark text and status</h3><div class="grid grid-4" id="sw-dark-text"></div>
+    <div class="grid grid-4" id="sw-dark-status" style="margin-top:var(--space-4)"></div>
+  </div>
 </div></section>
 
 <!-- TYPE -->
 <section id="type"><div class="container">
   <p class="eyebrow">Foundations</p>
   <h2 class="sec">Typography</h2>
-  <p class="sec-lead">Plus Jakarta Sans for all headings, body and UI. Source Code Pro for technical text. Regular 400 headings, with tight tracking and space to breathe.</p>
+  <p class="sec-lead">Plus Jakarta Sans for all headings, body and UI. Source Code Pro for technical text. Bold 700 headings, tracking −0.035em and line-height 1.04. Hero sizes: 48 / 76 / 92px; H2: 36 / 56px.</p>
 
   <div class="dx-card">
-    <div class="specimen"><span class="specimen__tag">display / hero</span><span class="specimen__text" style="font-family:var(--font-display);font-size:var(--text-fluid-hero);line-height:var(--leading-hero);letter-spacing:var(--tracking-hero)">Demos Network</span></div>
-    <div class="specimen"><span class="specimen__tag">display / 2xl</span><span class="specimen__text" style="font-family:var(--font-display);font-size:var(--text-2xl)">Two economies. One rail.</span></div>
+    <div class="specimen"><span class="specimen__tag">display / hero</span><span class="specimen__text" style="font-family:var(--font-display);font-weight:var(--font-weight-bold);font-size:var(--text-fluid-hero);line-height:var(--leading-hero);letter-spacing:var(--tracking-hero)">Demos Network</span></div>
+    <div class="specimen"><span class="specimen__tag">display / 2xl</span><span class="specimen__text" style="font-family:var(--font-display);font-weight:var(--font-weight-bold);font-size:var(--text-2xl)">Bold, clear, consistent.</span></div>
     <div class="specimen"><span class="specimen__tag">sans / xl</span><span class="specimen__text" style="font-size:var(--text-xl)">Consistent interfaces across the network.</span></div>
-    <div class="specimen"><span class="specimen__tag">sans / base</span><span class="specimen__text" style="font-size:var(--text-base)">Body copy at 16px keeps inputs from zooming on iOS and holds readability on dark.</span></div>
+    <div class="specimen"><span class="specimen__tag">sans / base</span><span class="specimen__text" style="font-size:var(--text-base)">Body copy at 16px keeps inputs from zooming on iOS and holds readability in both themes.</span></div>
     <div class="specimen"><span class="specimen__tag">sans / label</span><span class="specimen__text" style="font-size:var(--text-label);color:var(--color-text-secondary)">Field label · 14px secondary</span></div>
     <div class="specimen"><span class="specimen__tag">mono / data</span><span class="specimen__text dx-mono dx-mono--accent">0xdef…8fc2d · 999,999,995,982,000 DEMOS</span></div>
     <div class="specimen" style="border:none"><span class="specimen__tag">eyebrow</span><span class="specimen__text" style="text-transform:uppercase;letter-spacing:var(--tracking-eyebrow);font-size:var(--text-caption);color:var(--brand-violet-strong)">Identity · Transactions · Verification</span></div>
@@ -187,14 +195,14 @@
   <p class="sec-lead">Two interlocking comma forms. Inline SVG inherits <code class="dx-mono">currentColor</code>. Use the fixed light SVG for images on dark or purple surfaces.</p>
 
   <div class="grid grid-4">
-    <div class="logo-cell logo-cell--light"><img src="./brand/assets/demos-logo.svg" alt="on light"></div>
-    <div class="logo-cell logo-cell--card"><img src="./brand/assets/demos-logo-white.svg" style="color:var(--color-text-primary)" alt="on card"></div>
+    <div class="logo-cell logo-cell--light" data-theme="light"><img src="./brand/assets/demos-logo.svg" alt="on light"></div>
+    <div class="logo-cell logo-cell--card" data-theme="dark"><img src="./brand/assets/demos-logo-white.svg" style="color:var(--color-text-primary)" alt="on card"></div>
     <div class="logo-cell logo-cell--grad"><img src="./brand/assets/demos-logo-gradient.svg" alt="gradient"></div>
     <div class="logo-cell logo-cell--violet"><img src="./brand/assets/demos-logo-white.svg" style="color:var(--color-text-primary)" alt="on violet"></div>
   </div>
 
   <h3 class="sub">Sizes (PNG, transparent)</h3>
-  <div class="dx-card sizes">
+  <div class="dx-card sizes" data-theme="dark">
     <img src="./brand/assets/png/demos-logo-white-16.png" alt="16" title="16px">
     <img src="./brand/assets/png/demos-logo-white-32.png" alt="32" title="32px">
     <img src="./brand/assets/png/demos-logo-white-64.png" alt="64" title="64px">
@@ -216,7 +224,7 @@
 <section id="tokens"><div class="container">
   <p class="eyebrow">Foundations</p>
   <h2 class="sec">Spacing, radius, elevation</h2>
-  <p class="sec-lead">Base-4 spacing. Radius 4→16 + pill. Elevation = hairline border + dark drop, never soft glow.</p>
+  <p class="sec-lead">Base-4 spacing. 20px cards, 10px buttons, 6px chips and pill corners. Sections use 96px/24px mobile and 144px/40px desktop padding. Elevation = hairline border + dark drop, never soft glow.</p>
 
   <div class="grid grid-2">
     <div class="dx-card">
@@ -237,7 +245,7 @@
 </div></section>
 
 <!-- COMPONENTS -->
-<section id="components"><div class="container">
+<section id="components" data-theme="dark"><div class="container">
   <p class="eyebrow">Patterns</p>
   <h2 class="sec">Dapp components</h2>
   <p class="sec-lead">Reusable Demos patterns: opaque dark cards, purple buttons, labeled status pills and monospace data. These are adapted examples; all displayed network values are sample data.</p>
@@ -316,7 +324,7 @@
 <section id="install"><div class="container">
   <p class="eyebrow">Build</p>
   <h2 class="sec">Install</h2>
-  <p class="sec-lead">Import once, reference tokens everywhere. Plain CSS or Tailwind.</p>
+  <p class="sec-lead">Import once, reference tokens everywhere. Plain CSS or Tailwind. Light is the default; wrap dark sections in data-theme="dark" and reset nested light sections with data-theme="light".</p>
 
   <div class="grid grid-2">
     <div>
@@ -334,11 +342,11 @@ module.exports = {
 };</pre>
     </div>
   </div>
-  <p class="sec-lead" style="margin-top:var(--space-6)">The two verified fonts load from Google Fonts via <code class="dx-mono">fonts.css</code>. Generic fallbacks work offline. See the guide for self-hosting and source details.</p>
+  <p class="sec-lead" style="margin-top:var(--space-6)">The two verified fonts load from Google Fonts via <code class="dx-mono">fonts.css</code>. Generic fallbacks work offline. The existing network imports are verified; font binaries are not bundled.</p>
 </div></section>
 
 </main>
-<footer class="footer">
+<footer class="footer" data-theme="dark">
   <p><img class="dx-logo" src="./brand/assets/demos-logo-white.svg" alt="" style="height:1.2em;color:var(--color-text-secondary)"> Demos Network Design System</p>
   <p><a href="https://demos.network">demos.network</a> · <a href="https://scan.demos.network">Explorer</a> · <a href="https://faucet.demos.sh">Faucet</a> · <a href="./BRAND.md">Brand guide</a></p>
   <p style="color:var(--color-text-faint)">© 2026 Demos Network</p>
@@ -348,14 +356,14 @@ module.exports = {
 
 <script>
 // Resolve swatches from canonical CSS so displayed values cannot drift.
-const tokens = getComputedStyle(document.documentElement);
+// Read each swatch group in its own theme scope, including inherited overrides.
 const COLORS = {
   brand: [['Violet','--brand-violet'], ['Violet hover','--brand-violet-hover'], ['Violet strong','--brand-violet-strong'], ['Violet soft','--brand-violet-soft']],
   bg: [['Base','--color-bg-base'], ['Subtle','--color-bg-subtle'], ['Card','--color-bg-card'], ['Card hover','--color-bg-card-hover'], ['Letterbox','--color-bg-letterbox'], ['Tinted','--color-bg-tinted']],
   text: [['Primary','--color-text-primary'], ['Secondary','--color-text-secondary'], ['Muted · decorative only','--color-text-muted'], ['Inverse','--color-text-inverse']],
   status: [['Success','--color-success'], ['Warning','--color-warning'], ['Error','--color-error'], ['Info','--color-info']],
 };
-function swatch([name,varname]){
+function swatch([name,varname], tokens){
   const hex = tokens.getPropertyValue(varname).trim();
   return `<div class="swatch" data-copy="${hex}" role="button" tabindex="0" aria-label="Copy ${name} ${hex}">
     <div class="swatch__chip" style="background:${hex}"></div>
@@ -365,8 +373,12 @@ function swatch([name,varname]){
       <div class="swatch__var">${varname}</div>
     </div></div>`;
 }
-for(const [k,list] of Object.entries(COLORS)){
-  document.getElementById('sw-'+k).innerHTML = list.map(swatch).join('');
+for(const prefix of ['sw-', 'sw-dark-']){
+  for(const [k,list] of Object.entries(COLORS)){
+    const group = document.getElementById(prefix+k);
+    const tokens = getComputedStyle(group);
+    group.innerHTML = list.map(item => swatch(item, tokens)).join('');
+  }
 }
 
 // spacing scale bars
@@ -377,7 +389,7 @@ document.getElementById('scale-space').innerHTML = SPACE.map(([n,px])=>
    <span class="swatch__val">${px}px</span></div>`).join('');
 
 // radius demos
-const RADII = [['sm','4px'],['chip','6px'],['button','10px'],['card','14px'],['2xl','16px'],['pill','9999px']];
+const RADII = [['sm','4px'],['chip','6px'],['button','10px'],['card','20px'],['2xl','16px'],['pill','9999px']];
 document.getElementById('radius-demos').innerHTML = RADII.map(([n,v])=>
   `<div style="text-align:center"><div class="radius-demo" style="border-radius:var(--radius-${n});margin:0 auto"></div>
    <div class="swatch__var" style="margin-top:6px">${n}</div></div>`).join('');

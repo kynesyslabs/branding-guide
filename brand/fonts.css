@@ -1,5 +1,5 @@
-/* Verified families from demos.network, captured 2026-09-28.
- * Normal weights include 400 for headings/body and 500/600/700 for UI emphasis.
+/* Verified families from the latest localhost source, captured 2026-09-28.
+ * Headings use 700; body uses 400; UI emphasis uses 500/600/700.
  * Network access is required for this import; generic fallbacks work offline.
  * For self-hosting, retain the two family names and their upstream OFL licenses.
  */
@@ -13,7 +13,9 @@ html {
 }
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
-  font-weight: var(--font-weight-normal);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--tracking-section);
+  line-height: var(--leading-tight);
 }
 button, input, select, textarea { font-family: var(--font-sans); }
 code, pre, kbd, samp, .font-mono, .dx-mono, .dx-stat__value, svg text, svg tspan {

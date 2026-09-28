@@ -44,4 +44,18 @@ for (const file of ['index.html', 'brand/preview.html']) {
   const html = fs.readFileSync(path.join(root, file), 'utf8');
   for (const [, script] of html.matchAll(/<script[^>]*>([\s\S]*?)<\/script>/g)) new vm.Script(script, {filename: file});
 }
+const json = JSON.parse(fs.readFileSync(path.join(root, 'brand/tokens.json'), 'utf8'));
+assert.equal(json.$meta.mode, 'light');
+assert.deepEqual(Object.keys(json.themes), ['light', 'dark']);
+assert.equal(preset.theme.screens.md, '810px');
+assert.equal(preset.theme.screens.lg, '1200px');
+assert.equal(colors.brand['violet-highlight'], 'var(--brand-violet-highlight)');
+assert.equal(colors.text['on-accent-hover'], 'var(--color-text-on-accent-hover)');
+assert.equal(colors.border.control, 'var(--color-border-control)');
+for (const theme of Object.values(json.themes)) {
+  assert.equal(theme.radius.card, '20px');
+  assert.equal(theme.font.weight.bold, 700);
+  assert.equal(theme.letterSpacing.hero, '-0.035em');
+  assert.equal(theme.lineHeight.hero, 1.04);
+}
 console.log('Tailwind preset: palette, font defaults, compatibility, geometry and token references passed');

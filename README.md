@@ -1,21 +1,25 @@
 # Demos branding guide
 
-Dark design tokens, reusable components and logo assets aligned with
-[demos.network](https://demos.network/), captured **2026-09-28**.
+Light/default design tokens, reusable dark scopes, components and logo assets.
+**Source priority: [local latest](http://localhost:3005/) >
+[deployed secondary](https://demos.network/)**, captured **2026-09-28**. The owner
+identified localhost as the latest website; it supersedes the public-site styling
+in branch base `b9f1f44`. Only approved branding values are included.
 
-**Black, white, neutrals and purple only, including statuses.** The live website
-also uses extra semantic colors. Those are deliberately excluded here; this
+**Black, white, neutrals and purple only, including statuses.** The reference styles
+also contain extra semantic colors. Those are deliberately excluded here; this
 package does not claim exact color parity. See [PROVENANCE.md](PROVENANCE.md)
 for observed styles and deliberate policy decisions.
 
 Plus Jakarta Sans is used for all headings, body and UI. Source Code Pro is used
-for technical text. Headings are regular 400, with large desktop type and roomy
-spacing. Status labels and icons carry meaning independently of color.
+for technical text. Headings are bold 700, with −0.035em tracking and 1.04 line-height. Hero type
+is 48/76/92px; H2 is 36/56px. Cards have a 20px radius. Status labels and icons carry meaning independently of color.
 
 ## Files
 
-- `brand/tokens.css` — canonical dark CSS tokens, including compatible legacy names.
-- `brand/tokens.json` — complete generated JSON mirror with source metadata.
+- `brand/tokens.css` — canonical light/default and dark scoped CSS tokens, including compatible legacy names.
+- `brand/tokens.json` — compatible default JSON mirror plus complete `themes.light` / `themes.dark`
+  values, responsive overrides and source metadata.
 - `brand/fonts.css` — the two verified families and generic fallbacks.
 - `brand/components.css` — cards, standard and marketing buttons, status pills, data and forms.
 - `brand/tailwind.preset.js` — Tailwind 3 preset replacing default colors and font stacks.
@@ -32,6 +36,17 @@ spacing. Status labels and icons carry meaning independently of color.
 <link rel="stylesheet" href="brand/components.css">
 ```
 
+Light is the default. Apply a reusable theme to any container:
+
+```html
+<section data-theme="dark">
+  <div class="dx-card">Dark component</div>
+  <div data-theme="light" class="dx-card">Nested light component</div>
+</section>
+```
+
+`data-surface="ink"` and `.dx-theme-dark` are dark aliases; `.dx-theme-light`
+is a light alias. Colors, shadows and focus styles reset at each theme boundary.
 For Tailwind 3, import the CSS above and configure:
 
 ```js
@@ -44,7 +59,9 @@ module.exports = {
 Use `bg-bg-card`, `text-text-secondary`, `bg-brand-violet`, `font-mono`,
 `rounded-card`, `rounded-chip`, and `focus:shadow-focus`. The preset replaces
 Tailwind's color and font defaults, so unapproved hue utilities are unavailable.
-Consumers must also keep custom styles and additional plugins within the policy.
+Utilities inherit the current scoped theme. The preset matches the source’s
+810px `md` and 1200px `lg` breakpoints. Consumers must also keep custom styles
+and additional plugins within the policy.
 Tailwind 4 requires a separate integration; this JavaScript preset targets 3.
 
 ## Preview
@@ -63,12 +80,10 @@ Network data and forms are visual examples, not live services.
 
 `fonts.css` imports only Plus Jakarta Sans and Source Code Pro, with normal
 weights 400, 500, 600 and 700 and `display=swap`. It requires Google Fonts network
-access; offline rendering uses generic `system-ui`/`sans-serif` and
-`ui-monospace`/`monospace` fallbacks. Font binaries are not bundled: downloading
-them was unavailable during this update. For self-hosting, obtain these same
-families from their upstream distributions, retain their SIL Open Font License
-files, and replace the import with local `@font-face` rules. Do not add a third
-authored family or claim offline font parity until the binaries are included.
+access; the current network imports were verified in the supplied evidence.
+Offline rendering uses generic `system-ui`/`sans-serif` and
+`ui-monospace`/`monospace` fallbacks. Font binaries are not bundled and no self-host
+font work is required for this alignment. No third authored family is permitted.
 
 ## Generate and check
 
@@ -95,3 +110,10 @@ PNGs, generation scripts and tests. Regenerate it after any packaged file change
 `scripts/crawl.py` and `scripts/analyze.py` remain optional inspection utilities
 (the crawler requires Playwright). Their raw output is evidence, not approved
 brand tokens: never promote the site's extra colors automatically.
+
+## Verification handoff
+
+Automated checks cover both themes, CSS/JSON parity, typography, palette,
+contrast, theme-aware swatches, local links, SVG/PNG freshness and ZIP contents.
+Both preview pages were checked in Chrome at 1440, 768 and 390 pixels;
+prior browser results apply only to the superseded public-site version.

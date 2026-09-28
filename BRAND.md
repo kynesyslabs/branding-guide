@@ -1,117 +1,127 @@
 # Demos Network brand and design package
 
-This package aligns with the dark visual language of
-[demos.network](https://demos.network/) as captured on **2026-09-28**, under a
-strict **black/white/neutral-and-purple-only** policy. The live website has extra
-semantic colors; this package deliberately excludes them, including for statuses.
-It does not claim exact color parity. [PROVENANCE.md](PROVENANCE.md) separates
-observations from adaptations.
+**Source priority: [local latest](http://localhost:3005/) >
+[deployed secondary](https://demos.network/)**, captured **2026-09-28**.
+The owner-designated latest website supersedes the regular-heading, 14px-card,
+dark-only guidance from `b9f1f44`. [PROVENANCE.md](PROVENANCE.md) retains that history.
+Only approved branding values are published, with independent guide examples.
 
-## Color
+The strict policy is **black, white, neutrals and purple only**, including statuses.
+Extra source semantic colors are deliberately excluded; this is not exact color parity.
 
-| Role | CSS token | Value |
+## Color and themes
+
+Light is the root/default theme. Dark is an explicit, reusable scope, matching
+the source’s home, lifecycle, build and join sections. Each theme supplies all
+color, glass, focus and shadow values so nested themes reset correctly.
+
+| Role | CSS token | Light/default | Dark scope |
+| --- | --- | --- | --- |
+| Page | `--color-bg-base` / `--color-bg-primary` | `#f8f8f6` | `#111118` |
+| Subtle | `--color-bg-subtle` / `--color-bg-secondary` | `#f1f1ee` | `#16161e` |
+| Card | `--color-bg-card` | `#fefefc` | `#1c1c24` |
+| Hover | `--color-bg-card-hover` / `--color-bg-hover` | `#f4f4f1` | `#23232c` |
+| Tinted | `--color-bg-tinted` | `#f7f4fe` | `#1b1726` |
+| Letterbox | `--color-bg-letterbox` | `#111118` | `#0b0b10` |
+| Primary text | `--color-text-primary` | `#111118` | `#f8f8f6` |
+| Secondary text | `--color-text-secondary` | `#676770` | `#a1a1aa` |
+| Decorative / disabled text | `--color-text-muted` | `#7c7c85` | `#71717a` |
+| Action | `--brand-violet` | `#7c3aed` | `#7c3aed` |
+| Action hover | `--brand-violet-hover` | `#6d28d9` | `#8b5cf6` |
+| Readable purple | `--brand-violet-strong` | `#6d28d9` | `#a78bfa` |
+| Heading highlight | `--brand-violet-highlight` | `#6d28d9` | `#c4b5fd` |
+| Border | `--color-border` | `#e4e4df` | `#2a2a33` |
+| Hover border | `--color-border-hover` | `#d2d2cc` | `#3a3a45` |
+| Strong border | `--color-border-strong` | `#bdbdb6` | `#52525b` |
+| Control boundary (adaptation) | `--color-border-control` | `#7c7c85` | `#71717a` |
+
+These specific warm light neutrals, cool dark neutrals and pale purple tints are
+approved. They do not authorize extra accents. No green, cyan, yellow, amber,
+red or blue is permitted in authored UI, statuses, charts or assets.
+
+Use secondary text for readable labels, captions and placeholders. Muted colors
+are not safe for essential small text across all supported surfaces. The
+compatibility token `--color-text-faint` equals secondary. Strong purple is the
+small-link color. The letterbox token is always dark: use a dark scope for text
+on it; it is not a light-theme content surface.
+
+## Typography and spacing
+
+| Role | Family | Weight / treatment |
 | --- | --- | --- |
-| Page | `--color-bg-base` / `--color-bg-primary` | `#0a0a0f` |
-| Subtle | `--color-bg-subtle` / `--color-bg-secondary` | `#111118` |
-| Card | `--color-bg-card` | `#16161f` |
-| Hover | `--color-bg-card-hover` / `--color-bg-hover` | `#1c1c28` |
-| Primary text | `--color-text-primary` | `#f0f0f5` |
-| Secondary text | `--color-text-secondary` | `#9ca3af` |
-| Decorative or disabled | `--color-text-muted` | `#6b7280` |
-| Action | `--brand-violet` | `#7c3aed` |
-| Action hover | `--brand-violet-hover` | `#8b5cf6` |
-| Readable purple emphasis | `--brand-violet-strong` | `#a78bfa` |
-| Border | `--color-border` | `#ffffff14` |
-| Border hover | `--color-border-hover` | `#ffffff29` |
-| Strong border | `--color-border-strong` | `#ffffff3d` |
+| Headings | Plus Jakarta Sans | Bold 700, −0.035em tracking, 1.04 line-height |
+| Body, navigation, buttons and inputs | Plus Jakarta Sans | Body 400; UI emphasis 500–700 |
+| Code, hashes, addresses and data | Source Code Pro | 400–700, tabular numerals, no ligatures |
 
-The approved near-black and gray tokens have subtle cool casts inherited from
-the site. These specific neutrals are permitted; they do not authorize additional
-chromatic accents. Purple and white alpha fills are allowed. No green, cyan,
-yellow, amber, red or blue is permitted in authored UI, states, charts or assets.
+`--font-display` and `--font-sans` share the same family. Only generic fallbacks
+follow these two authored families. The existing Google Fonts network imports
+are verified; offline rendering uses generic fallbacks. No self-host font work
+is required for this update. See [font loading](README.md#fonts).
 
-Use secondary text for labels, captions, placeholders and other small readable
-content. Muted `#6b7280` fails 4.5:1 on these dark surfaces and must not carry
-essential small text. The compatibility token `--color-text-faint` now equals
-secondary. Use strong purple for small links; raw action purple is a fill, not a
-small-text color. Hairline borders are decorative separators, not sufficient
-standalone control indicators.
+| Viewport | Hero | H2 | Section vertical / horizontal padding |
+| --- | --- | --- | --- |
+| Below 810px (including measured 390px and 768px) | 48px | 36px | 96px / 24px |
+| 810–1199px | 76px | 56px | 144px / 40px |
+| From 1200px (including measured 1440px) | 92px | 56px | 144px / 40px |
 
-## Typography
+The compatible `--text-fluid-hero` and `--text-fluid-h2` names now follow these
+source breakpoints rather than the old clamps. Tailwind `md` is 810px and `lg`
+is 1200px. Hero content is left aligned with bold purple emphasis, never italic.
+Body text is at least 16px with line-height 1.6. Technical captions may be 12–14px
+with sufficient contrast; inputs stay 16px to avoid mobile zoom.
 
-| Role | Family | Weight |
-| --- | --- | --- |
-| All headings, body, navigation, buttons and inputs | Plus Jakarta Sans | Headings/body 400; UI emphasis 500–700 |
-| Code, hashes, addresses, technical labels and data values | Source Code Pro | 400–700 |
+Use the retained 1200px content container as a guide convention. Cards use 24px
+padding and **20px corners**; standard buttons use 10px, chips 6px, marketing
+CTAs pill corners. Cards are opaque by default. Optional glass, neutral shadows,
+purple-only radial glows and logo gradients are package adaptations, not claims
+of exact source geometry. Reusable examples do not reproduce the private site’s
+content or artwork.
 
-`--font-display` and `--font-sans` intentionally use the same family. Only generic
-fallbacks follow the authored family. The live CSS includes named system
-fallbacks, which this package intentionally omits. `brand/fonts.css` loads both
-families, including regular 400; it requires a network connection. See the
-[font loading notes](README.md#fonts) for the self-hosting limitation.
-
-- Hero: `clamp(2.5rem, 7vw, 4.5rem)`; 40px minimum, up to 72px desktop,
-  line-height 1.05 and tracking -0.02em.
-- Section heading: `clamp(2.25rem, 5.5vw, 4.5rem)`, regular 400,
-  line-height 1.1, tracking -0.015em. Desktop specimens reach 60–72px.
-- Body: at least 16px, line-height 1.6. Technical captions may be 12–14px when
-  sufficiently contrasted; inputs remain 16px to avoid mobile zoom.
-- Code and data: tabular numerals and ligatures disabled.
-
-## Layout, shape and depth
-
-Use a centered 1200px content container, 24px gutters and responsive one-column
-layouts on narrow screens. Marketing sections use 80–128px vertical space. These
-are package conventions based on observed utility sizes, not a reconstruction of
-every live layout. Data views can be denser without changing the type families.
-
-Cards are opaque `#16161f`, have 24px padding and a 14px radius. Hover uses
-`#1c1c28`. Standard buttons have a 10px radius and at least 44px height. Marketing
-CTAs use `9999px` pill corners; chips use 6px. White-alpha borders and restrained
-dark shadows separate surfaces. Glass is optional via `.dx-card--glass`.
-
-`--gradient-brand` is a purple-only accent-to-strong linear gradient. `--glow-hero`
-and `--glow-ambient` are restrained purple radial adaptations, not measured live
-radial geometry. Use them behind hero content, not every card. Live multihue
-gradients are deliberately excluded. The retained logo gradient runs light
-purple to action purple and is a package treatment, not a verified live logo fill.
-
-## Components
+## Components and theme scopes
 
 Import `tokens.css`, `fonts.css` and `components.css` in that order.
 
 ```html
-<div class="dx-card">
-  <h2>Network overview</h2>
-  <p>Use readable neutral text for supporting information.</p>
-  <a class="dx-btn dx-btn--primary dx-btn--marketing" href="#details">Explore Demos</a>
-</div>
+<section data-theme="dark">
+  <div class="dx-card">
+    <h2>Component example</h2>
+    <p>Readable secondary text inherits the section theme.</p>
+    <button class="dx-btn dx-btn--primary">Continue</button>
+  </div>
+  <div class="dx-card" data-theme="light">A nested light card.</div>
+</section>
 ```
 
-- `.dx-btn`: primary, secondary and ghost variants; add `--marketing` for a pill.
-  Primary uses white text on action purple. Hover uses the observed brighter
-  purple with dark text so small labels keep 4.5:1 contrast; this is a deliberate
-  accessibility adaptation. Visible focus uses strong purple with a dark offset.
-- `.dx-card`: opaque by default; `--hover` adds hover styling, `--glass` opts into
-  a translucent surface when supported. Validate text against the actual backdrop.
-- `.dx-stat`: readable secondary label and regular monospace value.
-- `.dx-row` / `.dx-mono`: wrapping label/value rows and technical text. Long
-  addresses wrap instead of overflowing mobile layouts.
+Use `data-theme="light"` or `.dx-theme-light` for a light reset; use
+`data-theme="dark"`, `.dx-theme-dark` or `data-surface="ink"` for dark sections.
+Token utilities inherit the nearest theme scope without requiring `dark:` variants.
+For mixed or nested themes, use these token utilities directly. Tailwind's legacy
+`dark:` variant is retained only for whole-page `[data-theme="dark"]` consumers;
+it does not reset inside a nested light section and does not recognize the CSS
+scope aliases. Do not use it for section-level theming.
+
+- `.dx-btn`: primary, secondary and ghost; add `--marketing` for pill corners.
+  Primary labels are white. Light-theme hover keeps white on darker purple;
+  dark-theme hover switches to black text on brighter purple to preserve contrast.
+- `.dx-card`: opaque; `--hover` adds hover styling and `--glass` opts into glass.
+  Validate glass against the actual backdrop.
+- `.dx-stat`, `.dx-row`, `.dx-mono`: readable labels and wrapping technical data.
 - `.dx-input`: visible label, readable placeholder, 16px text and purple focus.
-- `.dx-nav`: wrapping navigation, fixed light image on dark, visible active/focus states.
-- `.dx-badge`: 6px chip for a visible category such as “Transfer”.
+  Inputs and ghost buttons use the stronger control boundary for at least 3:1.
+- `.dx-nav`: wrapping navigation and visible current/focus states. Match the
+  standalone logo variant to its background.
+- `.dx-badge`: 6px chip with a visible category label.
 
 ### Status semantics
 
-Keep semantic names to preserve integrations, but never encode a state solely
-through color. All statuses must have visible text. Distinct icons supplement
-labels and use `aria-hidden="true"` when redundant. Do not use colored emoji.
+Semantic names remain compatible, including their `-soft` and `-muted` forms.
+Meaning comes from visible labels and distinct text icons, not color or emoji.
 
-| Class/token | Treatment | Example label/icon |
+| Class/token | Treatment | Label/icon |
 | --- | --- | --- |
-| `.dx-pill`, `--success` / `--color-success` | Strong purple on soft purple | ✓ Live / Success |
-| `--warning` / `--color-warning` | Primary neutral on white alpha | ! Testnet / Warning |
-| `--error` / `--color-error` | Strong purple, double border | × Down / Error |
+| `.dx-pill`, `--success` / `--color-success` | Readable purple on soft purple | ✓ Live / Success |
+| `--warning` / `--color-warning` | Primary neutral on neutral tint | ! Testnet / Warning |
+| `--error` / `--color-error` | Purple, double border | × Down / Error |
 | `--info` / `--color-info` | Secondary neutral | i Information |
 | `--neutral` | Secondary neutral | — Idle |
 
@@ -121,48 +131,38 @@ labels and use `aria-hidden="true"` when redundant. Do not use colored emoji.
 </span>
 ```
 
-The default, success, warning, error, info, soft and muted semantic names remain
-available. Applications should announce dynamic results with appropriate status
-or alert semantics, while keeping the visible label meaningful without color.
+Use appropriate status/alert semantics for dynamic results. Redundant icons
+are hidden from assistive technology while the visible label remains meaningful.
 
 ## Logo and downloads
 
-The existing two-comma mark geometry is retained. Its historical repository
-attribution was the faucet/indexer; this capture does not independently verify
-that geometry or establish a new logo source.
+The existing two-comma geometry is retained; the historic faucet/indexer
+attribution is not independently reverified by this capture.
 
 | Asset | Behavior |
 | --- | --- |
-| `demos-logo.svg` | `currentColor`; inherits only when inline in the document |
-| `demos-logo-white.svg` | Fixed `#f0f0f5`; use as `<img>` on dark/purple |
+| `demos-logo.svg` | `currentColor`; inherits only when inline |
+| `demos-logo-white.svg` | Fixed warm white; use as an image on dark/purple |
 | `demos-logo-gradient.svg` | Two purple stops only |
-| `favicon.svg` | Fixed action purple, visible on light and dark tab surfaces |
+| `favicon.svg` | Fixed action purple |
 
-A standalone SVG in `<img>` does **not** inherit the page's `color`. Use the
-fixed light image on dark backgrounds, the default black-rendering standalone
-mark on light, or inline SVG when color inheritance is required.
-
-```html
-<img class="dx-logo" src="brand/assets/demos-logo-white.svg" alt="Demos">
-```
-
-Keep clear space around the mark and preserve its aspect ratio. PNGs are
-transparent, 16/32/64/128/256/512px, in white and purple gradient variants. They
-are rendered from the SVGs, never manually recolored. Download
-[the complete kit](brand/assets/demos-brand-assets.zip). Rebuild commands and
-renderer version are in [README.md](README.md#generate-and-check).
+Standalone SVG images do not inherit the page’s text color. Use the default
+black-rendering standalone mark on light, the fixed light mark on dark, or
+inline SVG for inheritance. Preserve aspect ratio and clear space. Transparent
+PNGs come in 16/32/64/128/256/512px white and gradient variants, rendered directly
+from the current SVGs. [Download the kit](brand/assets/demos-brand-assets.zip).
 
 ## Accessibility and maintenance
 
-Use 4.5:1 for normal text and 3:1 for essential UI indicators. Tests check the
-supported opaque surfaces, primary and hover labels, and focus colors; this is
-not a blanket accessibility certification. Test custom compositions separately.
-Keep a visible keyboard focus and text labels, respect reduced motion, and verify
-mobile wrapping. Static examples show sample data only.
+Use at least 4.5:1 for normal text and 3:1 for essential UI boundaries/focus.
+Tests cover both themes’ opaque surfaces, status tint compositing, button labels
+and control/focus contrast. Muted text restrictions, hover label changes,
+stronger control boundaries and opaque focus rings are deliberate accessibility
+adjustments. This is not a certification of arbitrary custom compositions.
+Keep visible keyboard focus, respect reduced motion and verify mobile wrapping.
 
-CSS is canonical. Run `scripts/sync_tokens.py` to regenerate the full JSON mirror.
-The Tailwind 3 preset replaces default colors and families; avoid reintroducing
-unapproved defaults through other presets, plugins or custom styles. Dark is the
-supported theme. The former optional light override was removed because it was
-not a complete or verified theme; consumers needing light mode must define and
-validate an approved neutral/purple theme explicitly.
+CSS is canonical. Run `scripts/sync_tokens.py` to generate JSON: existing top-level
+keys describe light/default; `themes.light` and `themes.dark` contain explicit,
+complete values; `responsive` records breakpoint overrides. The Tailwind 3 preset
+replaces framework colors and font families. Rebuild PNGs and ZIP after changes.
+Both preview pages were checked in Chrome at 1440, 768 and 390 pixels.
